@@ -1,3 +1,5 @@
+package 중간고사;
+
 import java.util.Scanner;
 import java.util.InputMismatchException;
 /**
