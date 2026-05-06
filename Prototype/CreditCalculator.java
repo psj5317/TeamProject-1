@@ -1,4 +1,4 @@
-package 중간고사;
+package Prototype;
 
 import java.util.Scanner;
 import java.util.InputMismatchException;
