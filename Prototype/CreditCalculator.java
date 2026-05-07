@@ -1,3 +1,5 @@
+package Prototype;
+
 import java.util.Scanner;
 import java.util.InputMismatchException;
 /**
