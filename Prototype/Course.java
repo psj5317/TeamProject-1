@@ -1,35 +1,44 @@
 package Prototype;
-
+import java.util.Scanner;
 
 /**
- * 과목 객체를 만드는 클래스
+ * Course 과목 객체를 만드는 클래스
  *
  * @author (작성자 이름)
- * @version (버전 번호 또는 작성한 날짜)
+ * @version 2026-05-13
  */
-public class Course
-{
-    // 인스턴스 변수 - 다음의 예제를 사용자에 맞게 변경하세요.
-    private int x;
+public class Course {
+    private String courseTitle;
 
-    /**
-     * Course 클래스의 객체 생성자
-     */
-    public Course()
-    {
-        // 인스턴스 변수 초기화
-        x = 0;
+    public Course(String courseTitle) {
+        this.courseTitle = courseTitle;
     }
 
-    /**
-     * 예제 메소드 - 이 주석을 사용자에 맞게 바꾸십시오
-     *
-     * @param  y  메소드의 샘플 파라미터
-     * @return    x 더하기 y의 결과값을 반환
-     */
-    public int sampleMethod(int y)
-    {
-        // 여기에 코드를 작성하세요.
-        return x + y;
+    public String getCourseTitle() {
+        return courseTitle;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("입력할 과목의 개수를 정수로 입력하세요: ");
+        int count = scanner.nextInt();
+        scanner.nextLine(); 
+
+        Course[] courseArray = new Course[count];
+
+        for (int i = 0; i < count; i++) {
+            System.out.print((i + 1) + "번째 과목명: ");
+            String inputTitle = scanner.nextLine();
+            
+            courseArray[i] = new Course(inputTitle);
+        }
+
+        System.out.println("\n--- 저장된 과목 목록 ---");
+        for (Course c : courseArray) {
+            System.out.println("과목명: " + c.getCourseTitle());
+        }
+
+        scanner.close();
     }
 }
