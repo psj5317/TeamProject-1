@@ -8,7 +8,7 @@ import java.util.InputMismatchException;
  * @author (작성자 이름)
  * @version (버전 번호 또는 작성한 날짜)
  */
-public class Prototype
+public class Prototypecode
 {
     public static void main(String[] args){
         // 변수 선언

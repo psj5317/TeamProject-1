@@ -17,27 +17,27 @@ public class Student
         this.studentNum = studentNum;
         this.courseStudent = courseStudent;
     }
-    
+
     //setStudentName : 이름 입력
     public void setStudentName(String studentName){
         this.studentName = studentName;
     }
-    
+
     //setStudentNum : 학번 입력
     public void setStudentNum(int studentNum){
         this.studentNum = studentNum;
     }
-    
+
     //setCourseStudent : 수강중인 과목 입력
     public void setCourseStudent(String[] courseStudent){
         this.courseStudent = courseStudent;
     }
-    
+
     //getStudentName : 이름 출력
     public String getStudentName() {
         return studentName;
     }
-    
+
     //getStudentNum : 학번 출력
     public int getStudentNum() {
         return studentNum;
