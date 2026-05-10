@@ -12,7 +12,7 @@ public class Course {
     private int courseCredit;       //학점
     private String evaluationItem;  //평가항목(Ex:시험, 과제, 출석)
 
-    public Course(String courseTitle) {
+    public Course(String courseTitle, int courseCredit, String evaluationItem) {
         this.courseTitle = courseTitle;
         this.courseCredit = courseCredit;
         this.evaluationItem = evaluationItem;
@@ -22,4 +22,11 @@ public class Course {
         return courseTitle;
     }
 
+    public int getCourseCredit() {
+        return courseCredit;
+    }
+
+    public String getEvaluationItem() {
+        return evaluationItem;
+    }
 }

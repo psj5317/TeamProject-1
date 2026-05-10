@@ -31,7 +31,7 @@ public class MyApp
             studentNum[i] = scanner.nextInt();
             studentScore[i] = scanner.nextInt();
         }
-        
+
         //과목명 입력
         System.out.print("입력할 과목의 개수를 정수로 입력하세요: ");
         Course[] courseArray = new Course[count];
@@ -247,7 +247,6 @@ public class MyApp
         }
          **/
 
-        
         System.out.print("프로그램을 종료합니다.");
     }
 }
