@@ -8,8 +8,8 @@ package Prototype;
  */
 public class Student
 {
-    private String studentName;     //학생명
-    private int studentNum;         //학번
+    private String studentName;      //학생명
+    private int studentNum;          //학번
     private String[] courseStudent;  //수강과목
 
     public Student(String studentName, int studentNum, String[] courseStudent) {

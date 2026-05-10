@@ -1,252 +1,141 @@
 package Prototype;
-
 import java.util.Scanner;
 import java.util.InputMismatchException;
+
 /**
- * MyApp 클래스의 설명을 작성하세요.
+ * MyApp2 클래스의 설명을 작성하세요.
  *
  * @author (작성자 이름)
- * @version (버전 번호 또는 작성한 날짜)
+ * @version (2026.05.10)
  */
 public class MyApp
 {
     public static void main(String[] args){
-        // 변수 선언
+        //변수 선언
         Scanner scanner = new Scanner(System.in); 
-        int[] studentNum = new int[10];         //학번
-        int[] studentScore = new int[10];       //점수
-        int findStudentNum = 0;                 //입력값 학번 비교
-        int findStudentScore = 0;               //입력값 점수 비교
-        int count = 0;                          //같은 점수 학생 수
-        String findGrade;                       //학점 조회
-        int index = 0;                          //인덱스 조회
-        int menu = 0;                           //조회시스템
-        int gradeA = 90;                        //학점A 기준
-        int gradeB = 80;                        //학점B 기준
+        int mainMenu = 0;                           //기본화면
+        int studentMenu = 0;                        //학생메뉴
+        Student[] students = new Student[1000];     //학생정보(1000명 기준)
+        int studentIndex = 0;                       //학생 저장 인덱스
+        String[] courseStudent;                     //수강과목 배열
+        String studentName;                         //학생명
+        int findStudentNum;                         //학번으로 조회
 
-        // 학생정보 입력
-        System.out.println("10명 학생의 학번과 점수 입력");
-        for (int i = 0 ; i < 10 ; i++){
-            System.out.print(i+1+ ">>");
-            studentNum[i] = scanner.nextInt();
-            studentScore[i] = scanner.nextInt();
-        }
+        while (mainMenu != 4){
+            switch (mainMenu){
 
-        //과목명 입력
-        System.out.print("입력할 과목의 개수를 정수로 입력하세요: ");
-        Course[] courseArray = new Course[count];
-        for (int i = 0; i < count; i++) {
-            System.out.print((i + 1) + "번째 과목명: ");
-            String inputTitle = scanner.nextLine();
+                    //메인화면
+                    case(0):
+                    System.out.print("학생메뉴: 1, 과목메뉴: 2, 성적처리: 3, 프로그램 종료: 4>>");
 
-            courseArray[i] = new Course(inputTitle);
-        }
+                    //예외처리
+                    try{
+                        mainMenu = scanner.nextInt();    
+                    }
+                    catch (InputMismatchException e){
+                        System.out.println("1,2,3,4 중 입력하세요.");
+                        scanner.nextLine();
+                        mainMenu = 0;
+                    }
+                    break;
 
-        System.out.println("\n--- 개설된 과목 목록 ---");
-        for (Course c : courseArray) {
-            System.out.println("과목명: " + c.getCourseTitle());
-        }
+                    //학생메뉴
+                    case(1):
+                    switch (studentMenu){
+                            case(0):
+                            //학생메뉴 홈 탭
+                            System.out.println("");
+                            System.out.println("-------------학생메뉴 탭입니다.-------------");
+                            System.out.println("");
+                            System.out.print("학생추가: 1, 학생조회: 2, 학생수정: 3, 기본메뉴로 돌아가기: 4>> ");
 
-        /**
-        //조회시스템
-        while (menu != 4){
-        switch (menu){
-        case(0):
-        System.out.print("학번으로 검색: 1, 점수로 검색: 2, 등급으로 검색: 3, 끝내려면 4>>");
-        try{
-        menu = scanner.nextInt();    
-        }
-        catch (InputMismatchException e){
-        System.out.println("1,2,3 중 입력하세요.");
-        scanner.nextLine();
-        menu = 0;
-        }
-        break;
+                            //정수 외 입력 예외처리
+                            try{
+                                studentMenu = scanner.nextInt();    
+                            }
+                            catch (InputMismatchException e){
+                                System.out.println("1,2,3,4 중 입력하세요.");
+                                scanner.nextLine();
+                                studentMenu = 0;
+                            }
+                            break;
 
-        case(1):
-        index = 0;                              //인덱스 초기화
-        System.out.print("학번>>");
-        try{
-        findStudentNum = scanner.nextInt();     //조회할 학번 저장
-        }
+                            //----------------------------------------학생 추가 탭
+                            case(1):
 
-        catch (InputMismatchException e){
-        System.out.println("경고!! 정수를 입력하세요.");
-        scanner.nextLine();
-        continue;
-        }
+                            //변수 초기화
+                            int studentNum = 0;         //학번
+                            int courseCount = 0;        //수강과목 개수
 
-        for(int find : studentNum){      //조회할 학번 인덱스 추출
-        if (findStudentNum == find){
-        break;
-        }
-        else{
-        index ++;
-        }
-        }
+                            //프롬프트
+                            System.out.print("학생 이름>> ");
+                            studentName = scanner.next();
 
-        try{
-        System.out.println(studentScore[index] + "점");    
-        }
-        catch(ArrayIndexOutOfBoundsException e){
-        System.out.println(findStudentNum + "의 학생은 없습니다.");
-        menu = 0;
-        break;
-        }
+                            System.out.print("학생 학번>> ");
+                            studentNum = scanner.nextInt();
 
-        menu = 0;
-        break;
+                            System.out.print("학생 수강과목 개수>> ");
+                            try{
+                                courseCount = scanner.nextInt();
+                            }
+                            catch (InputMismatchException e){
+                                System.out.println("수강과목 개수는 정수로 입력해주세요 !");
+                                scanner.nextLine();
+                                break;
+                            }
 
-        case(2):
-        index = 0;                              //인덱스 초기화
-        count = 0;                              //동점 명수 초기화
-        System.out.print("점수>>");
+                            //학생 수강과목 저장할 배열 생성
+                            courseStudent = new String[courseCount];
 
-        try{
-        findStudentScore = scanner.nextInt();   //조회할 점수 저장    
-        }
+                            //수강과목명 입력
+                            for (int i = 0; i < courseCount ; i++){
+                                System.out.print("수강과목 이름 입력>> ");
+                                courseStudent[i] = scanner.next();                    
+                            }
 
-        catch(InputMismatchException e){
-        System.out.println("경고!! 정수를 입력하세요.");
-        scanner.nextLine();
-        continue;
-        }
+                            //학생 정보 저장
+                            students[studentIndex] = new Student(studentName, studentNum, courseStudent);
 
-        for(int find : studentScore){           //조회할 점수 인덱스 추출
-        if (findStudentScore == find){
-        if (count != 0  ){
-        System.out.print(studentNum[index]+ " ");
-        count ++;
-        }
-        else {
-        System.out.print("점수가 " + findStudentScore + "인 학생은 " + studentNum[index] + " ");
-        count ++;
-        }
-        index ++;
-        }
-        else{
-        index ++;
-        }
-        }
+                            //학생 신규 추가 후 다음 학생 정보 저장을 위해 인덱스로 넘어감
+                            studentIndex++;
 
-        if (count != 0){
-        System.out.println("입니다.");    
-        }
-        else {
-        System.out.println("점수가 "+findStudentScore+"인 학생은 없습니다.");
-        }
+                            //기본 학생 메뉴로 돌아가기
+                            studentMenu = 0;
+                            break;
 
-        menu = 0;
-        break;
+                            //--------------------------------------------학생 조회 탭
+                            case(2):
+                            System.out.println("조회할 학생의 학번을 입력하세요>> ");
+                            findStudentNum = scanner.nextInt();
+                            
+                            for (Student student : students){
+                                if (student != null){
+                                    if (student.getStudentNum() == findStudentNum){
+                                        System.out.println("이름: " + student.getStudentName());
+                                        System.out.println("학번 " + student.getStudentNum());
+                                        
+                                        for(String
+                                    }    
+                                }
 
-        case(3):
-        index = 0;                              //인덱스 초기화
-        count = 0;                              //동점 명수 초기화
-        System.out.print("검색할 학점(A,B,F)>>");
+                            }
+                            //기본 학생 메뉴로 돌아가기
+                            studentMenu = 0;
+                            break;
 
-        try{
-        findGrade = scanner.next();   //조회할 학점 저장    
-        }
+                            //학생 탭 정수 예외처리
+                        default:  
+                            System.out.println("메뉴 탭 1,2,3,4 중 입력하세요.");
+                            scanner.nextLine();
+                            studentMenu = 0;
+                    }
 
-        catch(InputMismatchException e){
-        System.out.println("경고!! A,B,F 중 입력하세요.");
-        scanner.nextLine();
-        continue;
+                    //메인메뉴 정수 예외처리
+                default:
+                    System.out.println("메뉴 탭 1,2,3,4 중 입력하세요.");
+                    scanner.nextLine();
+                    mainMenu = 0;  
+            }
         }
-
-        switch (findGrade.toUpperCase()){
-        case("A"):
-        for(int find : studentScore){           //조회할 점수 인덱스 추출
-        if (90 <= find){
-        if (count != 0  ){
-        System.out.print(studentNum[index]+ " ");
-        count ++;
-        }
-        else {
-        System.out.print("학점이 " + findGrade.toUpperCase() + "인 학생은 " + studentNum[index] + " ");
-        count ++;
-        }
-        index ++;
-        }
-        else{
-        index ++;
-        }
-        }
-        if (count != 0){
-        System.out.println("입니다.");    
-        }
-        else {
-        System.out.println("학점이 "+findGrade.toUpperCase() + "인 학생은 없습니다.");
-        }  
-
-        menu = 0;
-        break;
-
-        case("B"):
-        for(int find : studentScore){           //조회할 점수 인덱스 추출
-        if (80 <= find && 90 > find){
-        if (count != 0  ){
-        System.out.print(studentNum[index]+ " ");
-        count ++;
-        }
-        else {
-        System.out.print("학점이 " + findGrade.toUpperCase() + "인 학생은 " + studentNum[index] + " ");
-        count ++;
-        }
-        index ++;
-        }
-        else{
-        index ++;
-        }
-        }
-        if (count != 0){
-        System.out.println("입니다.");    
-        }
-        else {
-        System.out.println("학점이 "+findGrade.toUpperCase() + "인 학생은 없습니다.");
-        }  
-
-        menu = 0;
-        break;
-
-        case("F"):
-        for(int find : studentScore){           //조회할 점수 인덱스 추출
-        if (80 > find){
-        if (count != 0  ){
-        System.out.print(studentNum[index]+ " ");
-        count ++;
-        }
-        else {
-        System.out.print("학점이 " + findGrade.toUpperCase() + "인 학생은 " + studentNum[index] + " ");
-        count ++;
-        }
-        index ++;
-        }
-        else{
-        index ++;
-        }
-
-        }
-
-        if (count != 0){
-        System.out.println("입니다.");    
-        }
-        else {
-        System.out.println("학점이 "+findGrade.toUpperCase() + "인 학생은 없습니다.");
-        }  
-
-        menu = 0;
-        break;
-
-    default:
-        System.out.println("경고!! A,B,F 중 입력하세요.");
-        scanner.nextLine();
-        break;
-        }
-        }
-        }
-         **/
-
-        System.out.print("프로그램을 종료합니다.");
     }
 }
