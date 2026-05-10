@@ -109,21 +109,26 @@ public class MyApp
                             findStudentNum = scanner.nextInt();
                             
                             for (Student student : students){
+                                //학생정보 인덱스중 저장되어 있는 인덱스인지 확인
                                 if (student != null){
+                                    
                                     if (student.getStudentNum() == findStudentNum){
                                         System.out.println("이름: " + student.getStudentName());
                                         System.out.println("학번 " + student.getStudentNum());
                                         
-                                        for(String
+                                        for(String course : student.getCourseStudent()){
+                                            System.out.println("수강과목: " + course);
+                                        }
                                     }    
                                 }
-
                             }
+                            
                             //기본 학생 메뉴로 돌아가기
                             studentMenu = 0;
                             break;
 
                             //학생 탭 정수 예외처리
+                            
                         default:  
                             System.out.println("메뉴 탭 1,2,3,4 중 입력하세요.");
                             scanner.nextLine();
