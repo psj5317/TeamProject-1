@@ -10,6 +10,7 @@ import java.util.InputMismatchException;
  */
 public class MyApp
 {   
+
     public static void main(String[] args){
         //변수 선언
         Scanner scanner = new Scanner(System.in);
@@ -80,71 +81,78 @@ public class MyApp
 
                                 //--------------------------------------------학생 조회 탭
                                 case(2):
-                                    studentManager.findStudent(scanner);
-                                    studentMenu = 0;
-                                    break;
-                            }
-                        }
-                        studentMenu = 0;
-                        mainMenu = 0;
-                        break;
-
-                    case(2):
-                        while(courseMenu != 4){
-                            switch (courseMenu){
-                                    case(0):
-                                        //-------------------------------------------과목메뉴 홈 탭
-                                        System.out.println("");
-                                        System.out.println("-------------과목메뉴 탭입니다.-------------");
-                                        System.out.println("");
-                                        System.out.print("과목개설: 1, 과목조회: 2, 기본메뉴로 돌아가기: 3>> ");
-
-                                        //정수 외 입력 예외처리
-                                        try{
-                                            courseMenu = scanner.nextInt();    
-                                        }
-                                        catch (InputMismatchException e){
-                                            System.out.println("1,2,3 중 입력하세요.");
-                                            scanner.nextLine();
-                                            courseMenu = 0;
-                                        }
-                                        break;
-
-                                        //--------------------------------------------과목개설 탭
-                                        case(1):
-                                        evaluationItemCount = 0;
-
-                                        System.out.print("과목명>> ");
-                                        System.out.print("과목학점>> ");
-                                        System.out.print("평가항목 개수>> ");
-                                        evaluationItems = new String[scanner.nextInt()];
-                                        for (int i = 0; i < evaluationItemCount ; i++){
-                                            System.out.print("수강과목 이름 입력>> ");
-                                            evaluationItems[i] = scanner.next();
-                                            System.out.print(evaluationItems[i] + "의 점수 비율>> ");
-
-                                        }
-
-                                        //과목 탭 정수 입력 예외처리
-                                    default:  
-                                        System.out.println("메뉴 탭 1,2,3 중 입력하세요");
-                                        scanner.nextLine();
-                                        studentMenu = 0;
-                                }
-                            }
-
-                                //프로그램 종료
-                                case(4):
+                                studentManager.findStudent(scanner);
+                                studentMenu = 0;
                                 break;
-
-                                //메인메뉴 정수 예외처리
-                            default:
-                                System.out.println("메뉴 탭 1,2,3,4 중 입력하세요.");
-                                System.out.println("");
+                                
+                                default:  
+                                System.out.println("메뉴 탭 1,2,3 중 입력하세요");
                                 scanner.nextLine();
-                                mainMenu = 0;  
+                                studentMenu = 0;
                         }
                     }
-                    System.out.print("프로그램을 종료합니다.");
+                    studentMenu = 0;
+                    mainMenu = 0;
+                    break;
+                    
+                    
+                    //과목메뉴
+                    case(2):
+                    while(courseMenu != 4){
+                        switch (courseMenu){
+                                case(0):
+                                //-------------------------------------------과목메뉴 홈 탭
+                                System.out.println("");
+                                System.out.println("-------------과목메뉴 탭입니다.-------------");
+                                System.out.println("");
+                                System.out.print("과목개설: 1, 과목조회: 2, 기본메뉴로 돌아가기: 3>> ");
+
+                                //정수 외 입력 예외처리
+                                try{
+                                    courseMenu = scanner.nextInt();    
+                                }
+                                catch (InputMismatchException e){
+                                    System.out.println("1,2,3 중 입력하세요.");
+                                    scanner.nextLine();
+                                    courseMenu = 0;
+                                }
+                                break;
+
+                                //--------------------------------------------과목개설 탭
+                                case(1):
+                                evaluationItemCount = 0;
+
+                                System.out.print("과목명>> ");
+                                System.out.print("과목학점>> ");
+                                System.out.print("평가항목 개수>> ");
+                                evaluationItems = new String[scanner.nextInt()];
+                                for (int i = 0; i < evaluationItemCount ; i++){
+                                    System.out.print("평가항목 이름 입력>> ");
+                                    evaluationItems[i] = scanner.next();
+                                    System.out.print(evaluationItems[i] + "의 점수 비율>> ");
+
+                                }
+
+                                //과목 탭 정수 입력 예외처리
+                                default:  
+                                System.out.println("메뉴 탭 1,2,3 중 입력하세요");
+                                scanner.nextLine();
+                                studentMenu = 0;
+                        }
+                    }
+
+                    //프로그램 종료
+                    case(4):
+                    break;
+
+                    //메인메뉴 정수 예외처리
+                default:
+                    System.out.println("메뉴 탭 1,2,3,4 중 입력하세요.");
+                    System.out.println("");
+                    scanner.nextLine();
+                    mainMenu = 0;  
             }
         }
+        System.out.print("프로그램을 종료합니다.");
+    }
+}
