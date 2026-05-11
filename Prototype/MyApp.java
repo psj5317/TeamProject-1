@@ -75,16 +75,17 @@ public class MyApp
 
                                 //----------------------------------------학생 추가 탭
                                 case(1):
-                                studentManager.addStudent(scanner);       
+                                studentManager.addStudent(scanner,students);       
                                 studentMenu = 0;
                                 break;
 
                                 //--------------------------------------------학생 조회 탭
                                 case(2):
-                                studentManager.findStudent(scanner);
+                                studentManager.findStudent(scanner,students);
                                 studentMenu = 0;
                                 break;
                                 
+                                //학생 탭 정수 입력 예외처리
                                 default:  
                                 System.out.println("메뉴 탭 1,2,3 중 입력하세요");
                                 scanner.nextLine();
@@ -134,7 +135,7 @@ public class MyApp
                                 }
 
                                 //과목 탭 정수 입력 예외처리
-                                default:  
+                                default:
                                 System.out.println("메뉴 탭 1,2,3 중 입력하세요");
                                 scanner.nextLine();
                                 studentMenu = 0;

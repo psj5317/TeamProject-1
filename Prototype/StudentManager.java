@@ -5,13 +5,8 @@ public class StudentManager {
     private Student[] students;
     private int studentIndex;
 
-    public StudentManager() {
-        this.students = new Student[1000];
-        this.studentIndex = 0;
-    }
-
     // 학생 추가
-    public void addStudent(Scanner scanner) {
+    public void addStudent(Scanner scanner, Student[] students) {
         System.out.print("학생 이름>> ");
         String studentName = scanner.next();
 
@@ -40,7 +35,7 @@ public class StudentManager {
     }
 
     // 학생 조회
-    public void findStudent(Scanner scanner) {
+    public void findStudent(Scanner scanner, Student[] students) {
         System.out.print("조회할 학생의 학번을 입력하세요>> ");
         int findStudentNum = scanner.nextInt();
         boolean found = false;
