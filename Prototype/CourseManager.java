@@ -49,7 +49,6 @@ public class CourseManager
         for (int i = 0; i < evaluationItemCount; i++) {
             System.out.println(evaluationItems[i][0] + " : " + evaluationItems[i][1] + "%");
         }
-        System.out.println("-----------------------------");
 
         courses[courseIndex] = new Course(courseTitle, courseCredit, evaluationItems);
         courseIndex++;
@@ -80,7 +79,7 @@ public class CourseManager
                     for (int i = 0; i < title.length(); i++) {
                         if (title.charAt(i) != findCourse.charAt(i)) {
                             same = false;
-                            break;
+                            break;  
                         }
                     }
                 }

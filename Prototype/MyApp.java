@@ -121,13 +121,13 @@ public class MyApp
 
                                 //--------------------------------------------과목개설 탭 
                             case 1:
-                                System.out.println("과목개설 탭");
+                                System.out.println("");
                                 courseManager.addCourse(scanner);
                                 courseMenu = 0;
                                 break;
 
                             case 2:
-                                System.out.println("과목조회 탭");
+                                System.out.println("");
                                 courseManager.findCourse(scanner);
                                 courseMenu = 0;
                                 break;
