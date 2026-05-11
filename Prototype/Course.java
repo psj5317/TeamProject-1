@@ -8,11 +8,11 @@ import java.util.Scanner;
  * @version 2026-05-08
  */
 public class Course {
-    private String courseTitle;     //과목명
-    private int courseCredit;       //학점
-    private String[] evaluationItem;  //평가항목(Ex:시험, 과제, 출석)
-    
-    public Course(String courseTitle, int courseCredit, String[] evaluationItem) {
+    private String courseTitle;         //과목명
+    private int courseCredit;           //학점
+    private String[][] evaluationItem;  //평가항목(Ex:시험, 과제, 출석) 및 점수 분배
+
+    public Course(String courseTitle, int courseCredit, String[][] evaluationItem) {
         this.courseTitle = courseTitle;
         this.courseCredit = courseCredit;
         this.evaluationItem = evaluationItem;
@@ -26,7 +26,7 @@ public class Course {
         return courseCredit;
     }
 
-    public String[] getEvaluationItem() {
+    public String[][] getEvaluationItem() {
         return evaluationItem;
     }
 }

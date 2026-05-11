@@ -6,6 +6,7 @@ package Prototype;
  * @author (작성자 이름)
  * @version (2026.05.10)
  */
+    
 public class Student
 {
     private String studentName;      //학생명

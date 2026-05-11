@@ -1,12 +1,25 @@
 package Prototype;
 import java.util.Scanner;
 
-public class StudentManager {
-    private Student[] students;
-    private int studentIndex;
+/**
+ * StudentManager 클래스의 설명을 작성하세요.
+ *
+ * @author (작성자 이름)
+ * @version (버전 번호 또는 작성한 날짜)
+ */
 
+public class StudentManager {
+    private Student[] students;                         //학생 저장 배열
+    private int studentIndex;                           //학생 저장 배열의 인덱스
+    
+    public StudentManager() {
+        this.students = new Student[1000];
+        this.studentIndex = 0;
+    }
+    
+    
     // 학생 추가
-    public void addStudent(Scanner scanner, Student[] students) {
+    public void addStudent(Scanner scanner) {
         System.out.print("학생 이름>> ");
         String studentName = scanner.next();
 
@@ -22,8 +35,10 @@ public class StudentManager {
             scanner.nextLine();
             return;
         }
-
+        
         String[] courseStudent = new String[courseCount];
+        
+        courseStudent = new String[courseCount];
         for (int i = 0; i < courseCount; i++) {
             System.out.print("수강과목 이름 입력>> ");
             courseStudent[i] = scanner.next();
@@ -31,11 +46,12 @@ public class StudentManager {
 
         students[studentIndex] = new Student(studentName, studentNum, courseStudent);
         studentIndex++;
-        System.out.println("학생이 추가되었습니다.");
+        System.out.println(studentName + "학생이 추가되었습니다.");
     }
 
+    
     // 학생 조회
-    public void findStudent(Scanner scanner, Student[] students) {
+    public void findStudent(Scanner scanner) {
         System.out.print("조회할 학생의 학번을 입력하세요>> ");
         int findStudentNum = scanner.nextInt();
         boolean found = false;
