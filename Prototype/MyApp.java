@@ -17,6 +17,7 @@ public class MyApp
         Scanner scanner = new Scanner(System.in);
         StudentManager studentManager = new StudentManager();
         CourseManager courseManager = new CourseManager();
+        CreditManager creditManager = new CreditManager();
 
         //메인화면 변수
         int mainMenu = 0;                           //기본화면
