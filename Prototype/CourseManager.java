@@ -113,5 +113,8 @@ public class CourseManager
     }
     return false;
     }
+    public int getCourseCount() {
+        return courseIndex;
+    }
 }
 

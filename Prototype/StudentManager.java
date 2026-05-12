@@ -27,13 +27,19 @@ public class StudentManager {
         int studentNum = scanner.nextInt();
 
         System.out.print("학생 수강과목 개수>> ");
-        int courseCount;
-        try {
-            courseCount = scanner.nextInt();
-        } catch (java.util.InputMismatchException e) {
-            System.out.println("수강과목 개수는 정수로 입력해주세요!");
-            scanner.nextLine();
-            return;
+        int courseCount = 0;
+        while (true) {
+            try {
+                courseCount = scanner.nextInt();
+                if (courseCount > courseManager.getCourseCount()) {
+                    System.out.println("개설된 과목 수는 " + courseManager.getCourseCount() + "개입니다. 다시 입력해주세요.");
+                } else {
+                    break;  // 유효한 값이면 탈출
+                }
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("수강과목 개수는 정수로 입력해주세요!");
+                scanner.nextLine();
+            }
         }
         
         String[] courseStudent = new String[courseCount];
