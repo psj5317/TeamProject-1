@@ -22,6 +22,7 @@ public class MyApp
         int mainMenu = 0;                           //기본화면
         int studentMenu = 0;                        //학생메뉴
         int courseMenu = 0;                         //과목메뉴
+        int creditMenu = 0;                         //성적처리메뉴
 
         //과목관련 변수
         int evaluationItemCount;                    //평가항목 개수
@@ -29,7 +30,7 @@ public class MyApp
 
         while (mainMenu != 4){
             switch (mainMenu){
-                //메인화면
+                    //메인화면
                 case 0:
                     studentMenu = 0;
                     courseMenu = 0;
@@ -50,7 +51,6 @@ public class MyApp
                     break;
 
                     //과목메뉴
-                    
                 case 1:
                     while(courseMenu != 3){
                         switch (courseMenu){
@@ -99,7 +99,6 @@ public class MyApp
                     courseMenu = 0;
                     mainMenu = 0;
                     break;
-                    
 
                     //학생 메뉴
                 case 2:
@@ -141,6 +140,54 @@ public class MyApp
                                 break;
 
                                 //학생 탭 정수 입력 예외처리
+                            default:  
+                                System.out.println("메뉴 탭 1,2,3 중 입력하세요");
+                                scanner.nextLine();
+                                studentMenu = 0;
+                        }
+                    }
+                    break;
+
+                    //성적처리 메뉴
+                case 3:
+                    while(creditMenu != 3){
+                        mainMenu = 0;
+                        switch (creditMenu){
+                            case 0:
+                                //성적처리메뉴 홈 탭
+                                System.out.println("");
+                                System.out.println("-------------성적처리 탭입니다.-------------");
+                                System.out.println("");
+                                System.out.print("과목별 성적조회: 1, 학생별 성적조회: 2, 기본메뉴로 돌아가기: 3>> ");
+
+                                //정수 외 입력 예외처리
+                                try{
+                                    creditMenu = scanner.nextInt();    
+                                }
+                                catch (InputMismatchException e){
+                                    System.out.println("1,2,3 중 입력하세요.");
+                                    scanner.nextLine();
+                                    studentMenu = 0;
+                                }
+                                break;
+
+                                //----------------------------------------과목별 성적조회 탭
+                            case 1:
+                                creditManager.studentCredit(scanner);       
+                                creditMenu = 0;
+                                break;
+
+                                //--------------------------------------------학생별 성적조회 탭
+                            case 2:
+                                creditManager.courseCredit(scanner);
+                                creditMenu = 0;
+                                break;
+
+                            case 3:
+                                mainMenu = 0;
+                                break;
+
+                                //성적처리 탭 정수 입력 예외처리
                             default:  
                                 System.out.println("메뉴 탭 1,2,3 중 입력하세요");
                                 scanner.nextLine();
