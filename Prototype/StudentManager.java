@@ -22,10 +22,8 @@ public class StudentManager {
     public void addStudent(Scanner scanner, CourseManager courseManager) {
         System.out.print("학생 이름>> ");
         String studentName = scanner.next();
-
         System.out.print("학생 학번>> ");
         int studentNum = scanner.nextInt();
-
         System.out.print("학생 수강과목 개수>> ");
         int courseCount = 0;
         while (true) {
@@ -43,19 +41,19 @@ public class StudentManager {
         }
         
         String[] courseStudent = new String[courseCount];
-    for (int i = 0; i < courseCount; i++) {
-        while (true) {                                          // 유효한 과목명 입력될 때까지 반복
-            System.out.print("수강과목 이름 입력>> ");
-            String inputCourse = scanner.next();
-            if (courseManager.isCourseExist(inputCourse)) {    // 개설된 과목이면 등록
-                courseStudent[i] = inputCourse;
-                break;
-            } else {
-                System.out.println("과목명을 확인해 주세요.");  // 없으면 재입력
-            }
+        int i = 0;
+        while (i < courseCount) {
+            String inputCourse;
+            do {
+                System.out.print("수강과목 이름 입력>> ");
+                inputCourse = scanner.next();
+                if (!courseManager.isCourseExist(inputCourse)) {    // 없으면 재입력
+                    System.out.println("과목명을 확인해 주세요.");
+                }
+            } while (!courseManager.isCourseExist(inputCourse));
+            courseStudent[i] = inputCourse;                         // 개설된 과목이면 등록
+            i++;
         }
-    }
-
         students[studentIndex] = new Student(studentName, studentNum, courseStudent);
         studentIndex++;
         System.out.println(studentName + "학생이 추가되었습니다.");
@@ -65,7 +63,6 @@ public class StudentManager {
         System.out.print("조회할 학생의 학번을 입력하세요>> ");
         int findStudentNum = scanner.nextInt();
         boolean found = false;
-
         for (Student student : students) {
             if (student != null && student.getStudentNum() == findStudentNum) {
                 found = true;
@@ -76,7 +73,6 @@ public class StudentManager {
                 }
             }
         }
-
         if (!found) {
             System.out.println("해당 학번의 학생을 찾을 수 없습니다.");
         }
