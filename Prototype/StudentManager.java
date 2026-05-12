@@ -1,5 +1,6 @@
 package Prototype;
 import java.util.Scanner;
+import Prototype.CourseManager;
 
 /**
  * StudentManager 클래스의 설명을 작성하세요.
@@ -17,9 +18,8 @@ public class StudentManager {
         this.studentIndex = 0;
     }
     
-    
     // 학생 추가
-    public void addStudent(Scanner scanner) {
+    public void addStudent(Scanner scanner, CourseManager courseManager) {
         System.out.print("학생 이름>> ");
         String studentName = scanner.next();
 
@@ -37,19 +37,23 @@ public class StudentManager {
         }
         
         String[] courseStudent = new String[courseCount];
-        
-        courseStudent = new String[courseCount];
-        for (int i = 0; i < courseCount; i++) {
+    for (int i = 0; i < courseCount; i++) {
+        while (true) {                                          // 유효한 과목명 입력될 때까지 반복
             System.out.print("수강과목 이름 입력>> ");
-            courseStudent[i] = scanner.next();
+            String inputCourse = scanner.next();
+            if (courseManager.isCourseExist(inputCourse)) {    // 개설된 과목이면 등록
+                courseStudent[i] = inputCourse;
+                break;
+            } else {
+                System.out.println("과목명을 확인해 주세요.");  // 없으면 재입력
+            }
         }
+    }
 
         students[studentIndex] = new Student(studentName, studentNum, courseStudent);
         studentIndex++;
         System.out.println(studentName + "학생이 추가되었습니다.");
     }
-
-    
     // 학생 조회
     public void findStudent(Scanner scanner) {
         System.out.print("조회할 학생의 학번을 입력하세요>> ");

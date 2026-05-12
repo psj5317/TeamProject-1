@@ -103,4 +103,15 @@ public class CourseManager
             System.out.println("해당 과목을 찾을 수 없습니다.");
         }
     }
+    
+    // 과목 존재 여부 확인
+    public boolean isCourseExist(String title) {
+    for (Course course : courses) {
+        if (course != null && course.getCourseTitle().equals(title)) {
+            return true;
+        }
+    }
+    return false;
+    }
 }
+

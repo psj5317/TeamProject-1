@@ -36,7 +36,7 @@ public class MyApp
                     System.out.println("");
                     System.out.println("-------------성적처리 홈화면입니다.-------------");
                     System.out.println("");
-                    System.out.print("학생메뉴: 1, 과목메뉴: 2, 성적처리: 3, 프로그램 종료: 4>> ");
+                    System.out.print("과목메뉴: 1, 학생메뉴: 2, 성적처리: 3, 프로그램 종료: 4>> ");
 
                     //예외처리
                     try{
@@ -49,56 +49,9 @@ public class MyApp
                     }
                     break;
 
-                    //학생메뉴
-                case 1:
-                    while(studentMenu != 3){
-                        mainMenu = 0;
-                        switch (studentMenu){
-                            case 0:
-                                //학생메뉴 홈 탭
-                                System.out.println("");
-                                System.out.println("-------------학생메뉴 탭입니다.-------------");
-                                System.out.println("");
-                                System.out.print("학생추가: 1, 학생조회: 2, 기본메뉴로 돌아가기: 3>> ");
-
-                                //정수 외 입력 예외처리
-                                try{
-                                    studentMenu = scanner.nextInt();    
-                                }
-                                catch (InputMismatchException e){
-                                    System.out.println("1,2,3 중 입력하세요.");
-                                    scanner.nextLine();
-                                    studentMenu = 0;
-                                }
-                                break;
-
-                                //----------------------------------------학생 추가 탭
-                            case 1:
-                                studentManager.addStudent(scanner);       
-                                studentMenu = 0;
-                                break;
-
-                                //--------------------------------------------학생 조회 탭
-                            case 2:
-                                studentManager.findStudent(scanner);
-                                studentMenu = 0;
-                                break;
-
-                            case 3:
-                                mainMenu = 0;
-                                break;
-
-                                //학생 탭 정수 입력 예외처리
-                            default:  
-                                System.out.println("메뉴 탭 1,2,3 중 입력하세요");
-                                scanner.nextLine();
-                                studentMenu = 0;
-                        }
-                    }
-                    break;
-
                     //과목메뉴
-                case 2:
+                    
+                case 1:
                     while(courseMenu != 3){
                         switch (courseMenu){
                             case 0:
@@ -145,6 +98,55 @@ public class MyApp
                     }
                     courseMenu = 0;
                     mainMenu = 0;
+                    break;
+                    
+
+                    //학생 메뉴
+                case 2:
+                    while(studentMenu != 3){
+                        mainMenu = 0;
+                        switch (studentMenu){
+                            case 0:
+                                //학생메뉴 홈 탭
+                                System.out.println("");
+                                System.out.println("-------------학생메뉴 탭입니다.-------------");
+                                System.out.println("");
+                                System.out.print("학생추가: 1, 학생조회: 2, 기본메뉴로 돌아가기: 3>> ");
+
+                                //정수 외 입력 예외처리
+                                try{
+                                    studentMenu = scanner.nextInt();    
+                                }
+                                catch (InputMismatchException e){
+                                    System.out.println("1,2,3 중 입력하세요.");
+                                    scanner.nextLine();
+                                    studentMenu = 0;
+                                }
+                                break;
+
+                                //----------------------------------------학생 추가 탭
+                            case 1:
+                                studentManager.addStudent(scanner, courseManager);       
+                                studentMenu = 0;
+                                break;
+
+                                //--------------------------------------------학생 조회 탭
+                            case 2:
+                                studentManager.findStudent(scanner);
+                                studentMenu = 0;
+                                break;
+
+                            case 3:
+                                mainMenu = 0;
+                                break;
+
+                                //학생 탭 정수 입력 예외처리
+                            default:  
+                                System.out.println("메뉴 탭 1,2,3 중 입력하세요");
+                                scanner.nextLine();
+                                studentMenu = 0;
+                        }
+                    }
                     break;
 
                     //프로그램 종료
