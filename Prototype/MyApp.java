@@ -6,12 +6,19 @@ import java.util.InputMismatchException;
  * MyApp 클래스의 설명을 작성하세요.
  *
  * @author (작성자 이름)
- * @version (2026.05.10)
+ * @version (2026.05.13)
  */
 
-public class MyApp
-{   
+public class MyApp{ 
+
     //과목정보 입력 메서드
+
+    /**
+     * 메소드 예제 - 사용자에 맞게 주석을 바꾸십시오.
+     *
+     * @param  y  메소드의 샘플 파라미터
+     * @return    x 와 y의 합
+     */
     public static int addCourse(Scanner scanner,Student[] studentDB, Course[] courseDB, int totalCourse) {
         //과목 정보 입력
         System.out.print("과목명>> ");
@@ -54,6 +61,12 @@ public class MyApp
     }
 
     //과목조회 메서드
+    /**
+     * 메소드 예제 - 사용자에 맞게 주석을 바꾸십시오.
+     *
+     * @param  y  메소드의 샘플 파라미터
+     * @return    x 와 y의 합
+     */
     public static void findCourse(Scanner scanner,Course[] courseDB){
         System.out.print("조회할 과목명을 입력하세요>> ");
         String findCourse = scanner.next();
@@ -105,6 +118,12 @@ public class MyApp
     }
 
     // 학생 정보 입력
+    /**
+     * 메소드 예제 - 사용자에 맞게 주석을 바꾸십시오.
+     *
+     * @param  y  메소드의 샘플 파라미터
+     * @return    x 와 y의 합
+     */
     public static int addStudent(Scanner scanner,Student[] studentDB, Course[] courseDB, int totalStudent, int totalCourse) {      
         System.out.print("학생 이름>> ");
         String studentName = scanner.next();
@@ -196,6 +215,12 @@ public class MyApp
     }
 
     // 학생 조회
+    /**
+     * 메소드 예제 - 사용자에 맞게 주석을 바꾸십시오.
+     *
+     * @param  y  메소드의 샘플 파라미터
+     * @return    x 와 y의 합
+     */
     public static void findStudent(Scanner scanner, int totalCourse, Student[] studentDB, Course[] courseDB) {
         System.out.print("조회할 학생의 학번을 입력하세요>> ");
         int findStudentNum = scanner.nextInt();
@@ -257,6 +282,12 @@ public class MyApp
     // }
 
     //과목별 성적 계산
+    /**
+     * 메소드 예제 - 사용자에 맞게 주석을 바꾸십시오.
+     *
+     * @param  y  메소드의 샘플 파라미터
+     * @return    x 와 y의 합
+     */
     public static void courseCalculate(Scanner scanner , Course[] courseDB ,Student[] studentDB, int totalStudent, int totalCourse){
         System.out.print("성적조회할 과목명을 입력하세요 >> ");
         String findCourse = scanner.next(); //조회할 과목명
@@ -330,6 +361,7 @@ public class MyApp
         //선문대학교 A이상 비율  
         double aValue = count * 0.35;
         int aLimit = (int)aValue;
+        //소수점이 있다면 올림처리
         if(aValue > aLimit){
             aLimit++;
         }
@@ -340,7 +372,7 @@ public class MyApp
         if(bValue > bLimit){
             bLimit++;
         }
-        
+
         // 최종 성적 출력
         System.out.println("");;
         System.out.println("[" + findCourse + " 최종 성적]");
@@ -445,6 +477,12 @@ public class MyApp
     }
 
     //학생별 성적 계산
+    /**
+     * 메소드 예제 - 사용자에 맞게 주석을 바꾸십시오.
+     *
+     * @param  y  메소드의 샘플 파라미터
+     * @return    x 와 y의 합
+     */
     public static void studentScoreCalculate(Scanner scanner ,Student[] studentDB ,Course[] courseDB ,int totalStudent ,int totalCourse){
     }
     //메인 메서드
@@ -464,8 +502,8 @@ public class MyApp
         int totalStudent = 0;                        //입력받은 총 학생 수
 
         //과목관련 변수
-        int evaluationItemCount = 0;                //평가항목 개수
-        String[] evaluationItems;                   //평가항목 배열
+        // int evaluationItemCount = 0;                //평가항목 개수
+        // String[] evaluationItems;                   //평가항목 배열
         int totalCourse = 0;                        //입력받은 총 과목 수
 
         while (mainMenu != 4){
