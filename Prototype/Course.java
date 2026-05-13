@@ -10,12 +10,12 @@ import java.util.Scanner;
 public class Course {
     private String courseTitle;         //과목명
     private int courseCredit;           //학점
-    private String[][] evaluationItem;  //평가항목(Ex:시험, 과제, 출석) 및 각각 점수 분배
+    // private String[][] evaluationItem;  //평가항목(Ex:시험, 과제, 출석) 및 각각 점수 분배
 
-    public Course(String courseTitle, int courseCredit, String[][] evaluationItem) {
+    public Course(String courseTitle, int courseCredit) {
         this.courseTitle = courseTitle;
         this.courseCredit = courseCredit;
-        this.evaluationItem = evaluationItem;
+        // this.evaluationItem = evaluationItem;
     }
 
     public String getCourseName() {
@@ -26,7 +26,7 @@ public class Course {
         return courseCredit;
     }
 
-    public String[][] getEvaluationItem() {
-        return evaluationItem;
-    }
+    // public String[][] getEvaluationItem() {
+        // return evaluationItem;
+    // }
 }
