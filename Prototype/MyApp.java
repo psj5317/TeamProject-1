@@ -16,8 +16,12 @@ public class MyApp{
     /**
      * 메소드 예제 - 사용자에 맞게 주석을 바꾸십시오.
      *
-     * @param  y  메소드의 샘플 파라미터
-     * @return    x 와 y의 합
+     * @param   scanner : 메인 메서드와 연동되어 입력받는 파라미터
+     *          studentDB : 학생정보가 저장되어 있는 데이터베이스
+     *          courseDB : 과목정보가 저장되어있는 데이터베이스
+     *          totalCourse : 현재까지 입력받은 과목개수
+     *          
+     * @return  totalCourse : 과목정보가 입력되어 수정된 총 과목개수 값 반환
      */
     public static int addCourse(Scanner scanner,Student[] studentDB, Course[] courseDB, int totalCourse) {
         //과목 정보 입력
@@ -64,8 +68,9 @@ public class MyApp{
     /**
      * 메소드 예제 - 사용자에 맞게 주석을 바꾸십시오.
      *
-     * @param  y  메소드의 샘플 파라미터
-     * @return    x 와 y의 합
+     * @param   scanner : 메인 메서드와 연동되어 입력받는 파라미터
+     *          courseDB : 과목정보가 저장되어있는 데이터베이스
+     *          
      */
     public static void findCourse(Scanner scanner,Course[] courseDB){
         System.out.print("조회할 과목명을 입력하세요>> ");
@@ -121,8 +126,13 @@ public class MyApp{
     /**
      * 메소드 예제 - 사용자에 맞게 주석을 바꾸십시오.
      *
-     * @param  y  메소드의 샘플 파라미터
-     * @return    x 와 y의 합
+     * @param   scanner : 메인 메서드와 연동되어 입력받는 파라미터
+     *          studentDB : 학생정보가 저장되어 있는 데이터베이스
+     *          courseDB : 과목정보가 저장되어있는 데이터베이스
+     *          totalStudent : 현재까지 입력받은 학생수
+     *          totalCourse : 현재까지 입력받은 과목개수
+     *          
+     * @return  totalStudent : 학생정보가 입력되어 수정된 총학생수 값 반환
      */
     public static int addStudent(Scanner scanner,Student[] studentDB, Course[] courseDB, int totalStudent, int totalCourse) {      
         System.out.print("학생 이름>> ");
@@ -218,8 +228,10 @@ public class MyApp{
     /**
      * 메소드 예제 - 사용자에 맞게 주석을 바꾸십시오.
      *
-     * @param  y  메소드의 샘플 파라미터
-     * @return    x 와 y의 합
+     * @param   scanner : 메인 메서드와 연동되어 입력받는 파라미터
+     *          totalCourse : 현재까지 입력받은 과목개수
+     *          studentDB : 학생정보가 저장되어 있는 데이터베이스
+     *          courseDB : 과목정보가 저장되어있는 데이터베이스
      */
     public static void findStudent(Scanner scanner, int totalCourse, Student[] studentDB, Course[] courseDB) {
         System.out.print("조회할 학생의 학번을 입력하세요>> ");
@@ -285,8 +297,11 @@ public class MyApp{
     /**
      * 메소드 예제 - 사용자에 맞게 주석을 바꾸십시오.
      *
-     * @param  y  메소드의 샘플 파라미터
-     * @return    x 와 y의 합
+     * @param   scanner : 메인 메서드와 연동되어 입력받는 파라미터
+     *          courseDB : 과목정보가 저장되어있는 데이터베이스
+     *          studentDB : 학생정보가 저장되어 있는 데이터베이스
+     *          totalStudent : 현재까지 입력받은 학생수
+     *          totalCourse : 현재까지 입력받은 과목개수
      */
     public static void courseCalculate(Scanner scanner , Course[] courseDB ,Student[] studentDB, int totalStudent, int totalCourse){
         System.out.print("성적조회할 과목명을 입력하세요 >> ");
