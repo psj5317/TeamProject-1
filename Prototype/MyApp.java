@@ -27,7 +27,17 @@ public class MyApp{
         String courseTitle = scanner.next();
 
         System.out.print("과목학점>> ");
-        int courseCredit = scanner.nextInt();
+        int courseCredit;    
+        while(true){
+            try{
+                courseCredit = scanner.nextInt();
+                break;
+            }
+            catch(java.util.InputMismatchException e){
+                System.out.println("과목학점은 정수로 입력해주세요!");
+                scanner.nextLine();
+            }
+        }
 
         //개설강좌 확인
         System.out.println("");
@@ -60,7 +70,17 @@ public class MyApp{
         System.out.print("학생 이름>> ");
         String studentName = scanner.next();
         System.out.print("학생 학번>> ");
-        int studentNum = scanner.nextInt();
+        int studentNum;
+        while(true){
+            try{
+                studentNum= scanner.nextInt();
+                break;
+            }
+            catch(java.util.InputMismatchException e){
+                System.out.println("학번은 정수로 입력해주세요!");
+                scanner.nextLine();
+            }
+        }
         System.out.print("학생 수강과목 개수>> ");
         int courseCount = 0;
 
@@ -75,7 +95,8 @@ public class MyApp{
                     break;  // 유효한 값이면 끝내기
                 }
 
-            } catch (java.util.InputMismatchException e) {
+            } 
+            catch (java.util.InputMismatchException e) {
                 System.out.println("수강과목 개수는 정수로 입력해주세요!");
                 scanner.nextLine();
             }
@@ -101,9 +122,19 @@ public class MyApp{
 
                     //수강과목 배열과 점수배열을 같은 인덱스로 위치시켜서 연동
                     studentCourse[i] = inputCourse;
-                    System.out.print(inputCourse + "의 총점을 입력해주세요. >> ");    
-                    score[i] = scanner.nextInt(); 
+                    System.out.print(inputCourse + "의 총점을 입력해주세요. >> ");
 
+                    //제대로 입력될 때까지 반복
+                    while(true){
+                        try {
+                            score[i] = scanner.nextInt();
+                            break;
+                        }
+                        catch (java.util.InputMismatchException e) {
+                            System.out.println("총점은 정수로 입력해주세요!");
+                            scanner.nextLine();
+                        }
+                    }
                     //검색한 과목 찾았으니 found를 true로 변경
                     found = true;
                     break;
@@ -204,11 +235,43 @@ public class MyApp{
 
         // 등급컷 입력
         System.out.print("A 등급 최소 점수 >> ");
-        int aCut = scanner.nextInt();
+        int aCut; 
+        while(true){
+            try{
+                aCut = scanner.nextInt();
+                break;
+            }
+            catch(java.util.InputMismatchException e){
+                System.out.println("정수로 입력해주세요!");
+                scanner.nextLine();
+            }
+        }
+
         System.out.print("B 등급 최소 점수 >> ");
-        int bCut = scanner.nextInt();
+        int bCut;
+        while(true){
+            try{
+                bCut = scanner.nextInt();
+                break;
+            }
+            catch(java.util.InputMismatchException e){
+                System.out.println("정수로 입력해주세요!");
+                scanner.nextLine();
+            }
+        }
+
         System.out.print("C 등급 최소 점수 >> ");
-        int cCut = scanner.nextInt();
+        int cCut;
+        while(true){
+            try{
+                cCut = scanner.nextInt();
+                break;
+            }
+            catch(java.util.InputMismatchException e){
+                System.out.println("정수로 입력해주세요!");
+                scanner.nextLine();
+            }
+        }
 
         //선문대학교의 학사정보에 의하면 소수점처리는 올림으로 한다
         //선문대학교 A이상 비율 35%
@@ -272,7 +335,17 @@ public class MyApp{
      */
     public static void studentScoreCalculate(Scanner scanner ,Student[] studentDB ,Course[] courseDB ,int totalStudent ,int totalCourse){
         System.out.print("성적처리할 학생의 학번을 입력하세요. >> ");
-        int findStudentNum = scanner.nextInt(); //조회학생 학번
+        int findStudentNum;  //조회학생 학번
+        while(true){
+            try{
+                findStudentNum = scanner.nextInt();
+                break;
+            }
+            catch(java.util.InputMismatchException e){
+                System.out.println("학번은 정수로 입력해주세요!");
+                scanner.nextLine();
+            }
+        }
 
         //검색할 학생정보 저장
         Student targit = null;
