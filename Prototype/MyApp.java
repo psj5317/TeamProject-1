@@ -276,7 +276,7 @@ public class MyApp{
     public static void studentScoreCalculate(Scanner scanner ,Student[] studentDB ,Course[] courseDB ,int totalStudent ,int totalCourse){
         System.out.print("성적처리할 학생의 학번을 입력하세요. >> ");
         int findStudentNum = scanner.nextInt();
-        double totalScore = 0;
+        double totalScore = 0;//
 
         //학생을 찾았는가 확인
         boolean found = false;
