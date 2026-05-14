@@ -43,7 +43,7 @@ public class MyApp{
         //추가된 총 과목 수 메인메서드로 리턴
         return totalCourse;
     }
-    //
+
     // 학생 정보 입력
     /**
      * 학생의 이름, 학번, 수강과목 각각 점수를 입력받는 메서드
@@ -248,17 +248,17 @@ public class MyApp{
                 grade = "F";
             }
 
-            String[] grade = rankStudents[i].getGrades();   //받은 성적 저장
-            String[] course = rankStudents[i].getStudentCourse();   //어느 과목의 성적을 저장할지 정함
+            //받은 성적 저장
+            String[] courses = rankStudents[i].getStudentCourse();
 
-            // 현재 처리중인 과목 위치 찾아서 성적배열의 같은 인덱스에 저장
             for(int k = 0; k < courses.length; k++){
+                //성적계산 받은 과목의 인덱스 찾기
                 if(courses[k].equals(findCourse)){
-                    grades[k] = grade;
+                    rankStudents[i].setGrade(k, grade); //해당 과목과 같은 인덱스에 성적 저장하기
                     break;
                 }
             }
-            System.out.println((i + 1) + "등 " + rankStudents[i].getStudentName() + " " + totals[i] + "점 " + grade);
+            System.out.println((i + 1) + "등 " + rankStudents[i].getStudentName() + " " + totals[i] + "점 / 성적 : " + grade);
         }
     }
 
@@ -303,14 +303,22 @@ public class MyApp{
         System.out.println("학번 : " + targit.getStudentNum());
 
         String[] course = targit.getStudentCourse();    //수강과목 불러오기
-        int[] score = targit.getScore();    //과목별 총점수 불러오기
         String[] grade = targit.getGrade();    //과목별 성적 불러오기
         int applyCredit = 0;      // 신청학점
         int completeCredit = 0;   // 이수학점
         double totalPoint = 0;    // 평점합계
-        double avg = 0;           // 평점평균
-        double percent;           // 백분위
-        double point = 0.0;       // 과목 평점 저장할 변수
+        double point = 0.0;       // 과목 평점
+        
+        // 이수과목 성적처리 완료 여부 확인
+        for(int i = 0; i < grade.length; i++){
+            //만약 아직 성적이 계산되지 않았다면 실행
+            if(grade[i] == null){
+                System.out.println("");
+                System.out.println(course[i] + " 과목의 성적처리가 아직 완료되지 않았습니다.");
+                System.out.println("과목별 성적처리를 먼저 진행해주세요.");
+                return;
+            }
+        }
 
         //과목별 성적표 출력
         for(int i = 0; i < course.length; i++){
@@ -328,15 +336,16 @@ public class MyApp{
             applyCredit += credit; //신청학점 합산
 
             //성적별 평점부여
-            if(grade[i].equals("A")){
+            //만약 성적처리가 안 된 과목이 있다면 
+            if(grade[i] != null && grade[i].equals("A")){
                 point = 4.0;
                 completeCredit += credit;
             }
-            else if(grade[i].equals("B")){
+            else if(grade[i] != null && grade[i].equals("B")){
                 point = 3.0;
                 completeCredit += credit;
             }
-            else if(grade[i].equals("C")){
+            else if(grade[i] != null && grade[i].equals("C")){
                 point = 2.0;
                 completeCredit += credit;
             }
@@ -347,11 +356,16 @@ public class MyApp{
             totalPoint += point * credit;   //평점 * 과목학점 = 평점합계
             System.out.println(courseName + " : " + credit + "학점 / " + grade[i]);
         }
-        
-        // 평점평균 계산 (평점 총합 / 이수학점)
-        avg = totalPoint / completeCredit;
 
-        // 백분위 계산
+        // 평점평균 계산 (평점평균 = 평점합계 / 이수학점)
+        double avg = 0;
+        avg = totalPoint / completeCredit;
+        avg = ((int)(avg * 100 + 0.5)) / 100.0; //평점평균 산출은 다음과 같이 하며 소수점 셋째자리에서 반올림하여 둘째자리까지 표기한다.#선문대학교 학칙 (6-1)교무규정 36조
+
+        // 백분위 계산  
+        //평점평균 4.4 이상일때 (평점평균*20)+10
+        //평점평균 4.4 미만일때는 (평점평균*10)+54
+        double percent;
         if(avg >= 4.4){
             percent = (avg * 20) + 10;
         }
@@ -363,68 +377,63 @@ public class MyApp{
         int rank = 1;
 
         for(int i = 0; i < totalStudent; i++){
+            Student other = studentDB[i];   //조회학생 외 학생정보 불러오기
 
-            Student other = studentDB[i];
-
-            if(other == null){
+            if(other == null){  //DB에서 처음으로 빈 곳 발견하면 그 뒤로도 입력된 학생이 없으므로 불러오기 종료
                 break;
             }
 
-            String[] otherGrades = other.getGrades();
-            String[] otherCourses = other.getStudentCourse();
+            String[] otherGrade = other.getGrade();     //나머지 학생 성적 불러오기
+            String[] otherCourse = other.getStudentCourse();    //나머지 학생 수강과목 불러오기
 
-            int otherComplete = 0;
-            double otherTotal = 0;
+            int otherComplete = 0;  //나머지 학생의 이수학점 
+            double otherTotal = 0;  //나머지 학생의 평점합계
 
-            for(int j = 0; j < otherCourses.length; j++){
-
-                int credit = 0;
+            for(int j = 0; j < otherCourse.length; j++){
+                int credit = 0;     //
 
                 for(int k = 0; k < totalCourse; k++){
-                    if(courseDB[k].getCourseName()
-                    .equals(otherCourses[j])){
-
+                    if(courseDB[k].getCourseName().equals(otherCourse[j])){
                         credit = courseDB[k].getCourseCredit();
                         break;
                     }
                 }
 
-                double point = 0;
+                double otherPoint = 0;  //나머지 학생의 과목평점
 
-                if(otherGrades[j].equals("A")){
-                    point = 4.0;
+                if(grade[i] != null && grade[i].equals("A")){
+                    otherPoint = 4.0;
                     otherComplete += credit;
                 }
-                else if(otherGrades[j].equals("B")){
-                    point = 3.0;
+                else if(grade[i] != null && grade[i].equals("B")){
+                    otherPoint = 3.0;
                     otherComplete += credit;
                 }
-                else if(otherGrades[j].equals("C")){
-                    point = 2.0;
+                else if(grade[i] != null && grade[i].equals("C")){
+                    otherPoint = 2.0;
                     otherComplete += credit;
                 }
 
                 otherTotal += point * credit;
             }
 
-            double otherAvg = 0;
+            double otherAvg = 0;    //나머지 학생의 백분위
+            otherAvg = otherTotal / otherComplete;
+            otherAvg = ((int)(otherAvg * 100 + 0.5)) / 100.0;
 
-            if(otherComplete != 0){
-                otherAvg = otherTotal / otherComplete;
-            }
-
+            //백분위 점수 기준으로 석차 계산
             if(otherAvg > avg){
                 rank++;
             }
 
-            System.out.println("");
-            System.out.println("신청학점 : " + applyCredit);
-            System.out.println("이수학점 : " + completeCredit);
-            System.out.println("평점합계 : " + totalPoint);
-            System.out.println("평점평균 : " + avg);
-            System.out.println("백분위점수 : " + percent);
-            System.out.println("석차 : " + rank + "/" + totalStudent);
         }
+        System.out.println("");
+        System.out.println("신청학점 : " + applyCredit);
+        System.out.println("이수학점 : " + completeCredit);
+        System.out.println("평점합계 : " + totalPoint);
+        System.out.println("평점평균 : " + avg);
+        System.out.println("백분위점수 : " + percent);
+        System.out.println("석차 : " + rank + "/" + totalStudent);
     }
 
     //메인 메서드

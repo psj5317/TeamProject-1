@@ -13,7 +13,7 @@ public class Student
     private int studentNum;         //학번
     private String[] studentCourse; //수강과목
     private int score[];            //수강과목 총점 (과제, 출석, 시험점수 등을 합한 점수)
-    private String grade[];         //수강과목 성적 (A,B,F 로 나뉘는 등급)
+    private String grade[];         //수강과목 성적표 (Ex : A,B,F)
 
     public Student(String studentName, int studentNum, String[] studentCourse, int[] score, String[] grade) {
         this.studentName = studentName;
@@ -46,5 +46,10 @@ public class Student
     //getGrade : 수강과목별 성적 출력
     public String[] getGrade() {
         return grade;
+    }
+    
+    //setGrade : 과목의 성적처리 완료시 성적표 변경
+    public void setGrade(int index, String grade){
+        this.grade[index] = grade;
     }
 }
