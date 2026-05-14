@@ -3,10 +3,10 @@ import java.util.Scanner;
 import java.util.InputMismatchException;
 
 /**
- * MyApp 클래스의 설명을 작성하세요.
+ * 과목정보와 학생정보를 입력받고 선문대학교 학칙에 맞춰 성적처리를 하는 프로그램
  *
- * @author (2023320006 정준영)
- * @version (2026.05.13)
+ * @author (2023320010 박성준, 2023320012 강성하, 2023320006 정준영, 2023320029 정지후)
+ * @version (2026.05.15)
  */
 
 public class MyApp{ 
@@ -133,7 +133,7 @@ public class MyApp{
     //과목별 성적 계산
     /**
      * 입력받은 과목에서 수강학생의 점수를 정렬하고 점수표를 출력한 뒤, 
-     * 교수님께서 성적컷을 입력하면 선문대 학칙에 맞게 자동으로 학생들에게 성적을 부여하는 메서드
+     * 교수님께서 성적컷을 입력하면 선문대 학칙에 맞게 자동으로 성적을 부여하는 메서드
      * 
      *
      * @param   scanner : 메인 메서드와 연동되어 입력받는 파라미터
@@ -205,10 +205,8 @@ public class MyApp{
         // 등급컷 입력
         System.out.print("A 등급 최소 점수 >> ");
         int aCut = scanner.nextInt();
-
         System.out.print("B 등급 최소 점수 >> ");
         int bCut = scanner.nextInt();
-
         System.out.print("C 등급 최소 점수 >> ");
         int cCut = scanner.nextInt();
 
