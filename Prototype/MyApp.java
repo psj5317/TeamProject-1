@@ -308,7 +308,7 @@ public class MyApp{
         int completeCredit = 0;   // 이수학점
         double totalPoint = 0;    // 평점합계
         double point = 0.0;       // 과목 평점
-        
+
         // 이수과목 성적처리 완료 여부 확인
         for(int i = 0; i < grade.length; i++){
             //만약 아직 성적이 계산되지 않았다면 실행
@@ -445,9 +445,6 @@ public class MyApp{
 
         //메인화면 변수
         int mainMenu = 0;                           //기본화면
-        int studentMenu = 0;                        //학생메뉴
-        int courseMenu = 0;                         //과목메뉴
-        int creditMenu = 0;                         //성적처리메뉴
 
         //학생관련 변수
         int totalStudent = 0;                        //입력받은 총 학생 수
@@ -455,6 +452,13 @@ public class MyApp{
         //과목관련 변수
         int totalCourse = 0;                        //입력받은 총 과목 수
 
+        //사용법 출력
+        System.out.println("성적처리 프로그램을 실행합니다.");
+        System.out.println("사용법은 아래와 같습니다.");
+        System.out.println("1. 원하는 항목의 숫자를 키보드로 입력후 엔터를 눌러주세요. ");
+        System.out.println("2. 성적처리 도중, 학생 또는 과목이 추가될 경우 해당 정보를 입력한 뒤 3번 항목(과별 성적계산)부터 다시 실행해주세요.");
+        System.out.println("3. 숫자 5를 입력하면 프로그램이 종료됩니다.");
+        System.out.println("4. 이 프로그램은 선문대학교 학칙, 학사팀 문의내용을 기준으로 만들어졌습니다.");
         while (mainMenu != 4){
             switch (mainMenu){
                     //메인화면
@@ -462,14 +466,14 @@ public class MyApp{
                     System.out.println("");
                     System.out.println("-------------성적처리 홈화면입니다.-------------");
                     System.out.println("");
-                    System.out.print("과목명 입력: 1, 학생정보 입력: 2, 성적처리: 3, 프로그램 종료: 4>> ");
+                    System.out.print("과목정보 입력: 1, 학생정보 입력: 2, 과목별 성적계산: 3, 학생별 성적조회: 4, 프로그램 종료: 5>> ");
 
                     //예외처리
                     try{
                         mainMenu = scanner.nextInt();    
                     }
                     catch (InputMismatchException e){
-                        System.out.println("1,2,3,4 중 입력하세요.");
+                        System.out.println("1,2,3,4,5 중 입력하세요.");
                         scanner.nextLine();
                         mainMenu = 0;
                     }
@@ -488,63 +492,24 @@ public class MyApp{
                     mainMenu = 0;
                     break;
 
-                    //성적처리 메뉴
+                    //과목별 성적계산
                 case 3:
-                    while(creditMenu != 3){
-                        mainMenu = 0;
-                        switch (creditMenu){
-                            case 0:
-                                //성적처리메뉴 홈 탭
-                                System.out.println("");
-                                System.out.println("-------------성적처리 탭입니다.-------------");
-                                System.out.println("");
-                                System.out.print("과목별 성적조회: 1, 학생별 성적조회: 2, 기본메뉴로 돌아가기: 3>> ");
+                    courseCalculate(scanner , courseDB , studentDB, totalStudent, totalCourse);
+                    mainMenu = 0;
+                    break;
 
-                                //정수 외 입력 예외처리
-                                try{
-                                    creditMenu = scanner.nextInt();    
-                                }
-                                catch (InputMismatchException e){
-                                    System.out.println("1,2,3 중 입력하세요.");
-                                    scanner.nextLine();
-                                    studentMenu = 0;
-                                }
-                                break;
-
-                                //----------------------------------------과목별 성적조회 탭
-                            case 1:
-                                courseCalculate(scanner , courseDB , studentDB, totalStudent, totalCourse);
-                                creditMenu = 0;
-                                break;
-
-                                //--------------------------------------------학생별 성적조회 탭
-                            case 2:
-                                studentScoreCalculate(scanner , studentDB , courseDB , totalStudent , totalCourse);
-                                creditMenu = 0;
-                                break;
-
-                            case 3:
-                                mainMenu = 0;
-                                break;
-
-                                //성적처리 탭 정수 입력 예외처리
-                            default:  
-                                System.out.println("메뉴 탭 1,2,3 중 입력하세요");
-                                scanner.nextLine();
-                                studentMenu = 0;
-                        }
-                    }
-                    creditMenu = 0;
+                case 4:
+                    studentScoreCalculate(scanner , studentDB , courseDB , totalStudent , totalCourse);
                     mainMenu = 0;
                     break;
 
                     //프로그램 종료
-                case 4:
+                case 5:
                     break;
 
                     //메인메뉴 정수 예외처리
                 default:
-                    System.out.println("메뉴 탭 1,2,3,4 중 입력하세요.");
+                    System.out.println("메뉴 탭 1,2,3,4,5 중 입력하세요.");
                     System.out.println("");
                     scanner.nextLine();
                     mainMenu = 0;  
