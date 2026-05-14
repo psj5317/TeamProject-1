@@ -12,9 +12,8 @@ import java.util.InputMismatchException;
 public class MyApp{ 
 
     //과목정보 입력 메서드
-
     /**
-     * 메소드 예제 - 사용자에 맞게 주석을 바꾸십시오.
+     * 성적처리 할 과목의 정보를 입력받는 메서드
      *
      * @param   scanner : 메인 메서드와 연동되어 입력받는 파라미터
      *          studentDB : 학생정보가 저장되어 있는 데이터베이스
@@ -31,29 +30,11 @@ public class MyApp{
         System.out.print("과목학점>> ");
         int courseCredit = scanner.nextInt();
 
-        // System.out.print("평가항목 개수>> ");
-        // int evaluationItemCount = scanner.nextInt();
-        // String[][] evaluationItems = new String[evaluationItemCount][2];
-
-        // //평가항목마다 점수 차등 설정
-        // for (int i = 0 ; i < evaluationItemCount ; i++){
-        // System.out.print("평가항목 " + (i+1) +"번 이름 입력>> ");
-        // evaluationItems[i][0] = scanner.next();
-        // System.out.print(evaluationItems[i][0] + " 점수 설정>> ");
-        // evaluationItems[i][1] = scanner.next();
-        // System.out.println("");
-        // }
-
         //개설강좌 확인
         System.out.println("");
         System.out.println("----------입력된 과목----------");
         System.out.println("과목명: " + courseTitle);
         System.out.println("학점: " + courseCredit);
-
-        // System.out.println(courseTitle + " 평가 점수");
-        // for (int i = 0; i < evaluationItemCount; i++) {
-        // System.out.println(evaluationItems[i][0] + " : " + evaluationItems[i][1]);
-        // }
 
         //과목DB에 과목 추가
         courseDB[totalCourse] = new Course(courseTitle, courseCredit);
@@ -64,67 +45,9 @@ public class MyApp{
         return totalCourse;
     }
 
-    //과목조회 메서드
-    /**
-     * 메소드 예제 - 사용자에 맞게 주석을 바꾸십시오.
-     *
-     * @param   scanner : 메인 메서드와 연동되어 입력받는 파라미터
-     *          courseDB : 과목정보가 저장되어있는 데이터베이스
-     *          
-     */
-    public static void findCourse(Scanner scanner,Course[] courseDB){
-        System.out.print("조회할 과목명을 입력하세요>> ");
-        String findCourse = scanner.next();
-
-        //해당 과목을 찾았는지 확인하기 위한 변수
-        boolean found = false;
-
-        for (Course course : courseDB) {
-            //과목명 일치하는지 검사
-            if (course != null) {
-                String title = course.getCourseName();
-
-                boolean same = true;
-
-                //찾으려는 과목과 기존 과목 문자열 길이 다르면 넘어감
-                if (title.length() != findCourse.length()) {
-                    same = false;
-                }
-                //문자열 길이 같을경우 과목명 한 글자씩 비교
-                else {
-
-                    for (int i = 0; i < title.length(); i++) {
-                        if (title.charAt(i) != findCourse.charAt(i)) {
-                            same = false;
-                            break;  
-                        }
-                    }
-                }
-
-                //일치할경우 조회된 과목정보 출력
-                if (same) {
-                    found = true;
-                    System.out.println("과목명: " + course.getCourseName());
-
-                    System.out.println("학점: " + course.getCourseCredit());
-
-                    //평가항목별 점수표
-                    // for (int i = 0 ; i < course.getEvaluationItem().length ; i++) {
-                    // System.out.println(course.getEvaluationItem()[i][0] + " : " + course.getEvaluationItem()[i][1] + "점");
-                    // }
-                }
-            }
-        }
-
-        //개설x 강의 안내
-        if (!found) {
-            System.out.println("해당 과목을 찾을 수 없습니다.");
-        }
-    }
-
     // 학생 정보 입력
     /**
-     * 메소드 예제 - 사용자에 맞게 주석을 바꾸십시오.
+     * 학생의 이름, 학번, 수강과목 각각 점수를 입력받는 메서드
      *
      * @param   scanner : 메인 메서드와 연동되어 입력받는 파라미터
      *          studentDB : 학생정보가 저장되어 있는 데이터베이스
@@ -161,49 +84,30 @@ public class MyApp{
 
         String[] studentCourse = new String[courseCount];      //입력받은 과목들을 저장할 배열 생성
         int[] score = new int[courseCount];                    //과목별 성적 입력받을 배열 생성
-        // int[][] scores = new int[courseCount][];            //평가항목별 점수 저장할 배열 생성 [평가항목 이름][해당항목 점수]
 
+        //수강과목 학생점수 입력받기
         for (int i = 0 ; i < courseCount ; i++) {
-            String inputCourse;     //과목이 데이터베이스에 입력되어 있는지 확인하기 위해 입력값을 저장해둘 변수
             System.out.println("");;
             System.out.print("수강과목명 입력>> ");
-            inputCourse = scanner.next();
+            String inputCourse = scanner.next();   //과목이 데이터베이스에 입력되어 있는지 확인하기 위해 입력값을 저장해둘 변수
 
             //수강과목이 현재 과목DB에 입력되어 있는지 확인하고 학생정보 입력받기
             boolean found = false;  //입력받은 과목이 현재 데이터베이스에 있는지 구분하기 위한 변수
 
             //현재 과목DB에 저장되어있는 과목들을 검사하므로 입력된 과목개수만큼 반복
             for (int j = 0; j < totalCourse; j++) {
-                //과목DB에서 현재 입력받은 과목명이 있는지 확인(equals()는 예제 3-6에서 나왔었음 !)
+
+                //과목DB에서 현재 입력받은 과목명이 있는지 확인(equals()는 예제 3-6에서 나왔었음)
                 if (courseDB[j].getCourseName().equals(inputCourse)) {
+
+                    //수강과목 배열과 점수배열을 같은 인덱스로 위치시켜서 연동
                     studentCourse[i] = inputCourse;
-                    System.out.print(inputCourse + "의 총점을 입력해주세요. >>");
+                    System.out.print(inputCourse + "의 총점을 입력해주세요. >> ");    
                     score[i] = scanner.nextInt(); 
+
+                    //검색한 과목 찾았으니 found를 true로 변경
                     found = true;
-
-                    // //입력받은 과목의 평가항목별 점수 입력받기
-                    // String[][] items = courseDB[j].getEvaluationItem(); //입력받은 과목의 평가항목 불러오기
-                    // score[i] = new int[items.length];  //점수 저장할 변수에 평가항목 개수만큼 배열길이 설정
-
-                    // for (int k = 0; k < items.length; k++) {
-                    // int maxScore = Integer.parseInt(items[k][1]);   //현재 평가항목의 지정된 점수 Ex) 과제점수 20점 > 20 저장
-
-                    // while (true) {
-                    // System.out.print((k+1) + ". " + items[k][0] + " 점수 입력>> ");
-                    // int inputScore = scanner.nextInt();
-
-                    // //만약 입력받은 점수가 지정된 점수를 초과하면 다시 입력 (예를들어 과제 20점 만점인데 25점 입력시 재입력)
-                    // if (inputScore > maxScore) {
-                    // System.out.println(items[k][0] + "의 최대 점수는 " + maxScore + "점입니다.");
-                    // }
-                    // else {
-                    // score[i][k] = inputScore;
-                    // break;
-                    // }
-                    // }
-                    // }
-
-                    break; //검색한 과목 찾았으니 break
+                    break;
                 }
             }
 
@@ -214,8 +118,11 @@ public class MyApp{
             }
         }
 
+        //성적입력받기 전 이므로 빈 성적표 배열 만들어두기
+        String[] grade = new String[courseCount];
+
         //DB에 학생 추가
-        studentDB[totalStudent] = new Student(studentName, studentNum, studentCourse, score);
+        studentDB[totalStudent] = new Student(studentName, studentNum, studentCourse, score, grade);
         System.out.println(studentName + "학생 정보가 입력되었습니다.");
 
         totalStudent++; //학생이 정상적으로 추가되었으므로 데이터베이스에 저장된 학생 수 +1
@@ -224,78 +131,11 @@ public class MyApp{
         return totalStudent;
     }
 
-    // 학생 조회
-    /**
-     * 메소드 예제 - 사용자에 맞게 주석을 바꾸십시오.
-     *
-     * @param   scanner : 메인 메서드와 연동되어 입력받는 파라미터
-     *          totalCourse : 현재까지 입력받은 과목개수
-     *          studentDB : 학생정보가 저장되어 있는 데이터베이스
-     *          courseDB : 과목정보가 저장되어있는 데이터베이스
-     */
-    public static void findStudent(Scanner scanner, int totalCourse, Student[] studentDB, Course[] courseDB) {
-        System.out.print("조회할 학생의 학번을 입력하세요>> ");
-        int findStudentNum = scanner.nextInt();
-
-        //학생을 찾았는가 확인
-        boolean found = false;
-
-        //학생 DB에서 학번으로 학생 조회
-        for (Student student : studentDB) {
-            if (student != null && student.getStudentNum() == findStudentNum) {
-                found = true;
-                System.out.println("이름: " + student.getStudentName());
-                System.out.println("학번: " + student.getStudentNum());
-
-                for (int i = 0; i < student.getStudentCourse().length; i++) {   //수강중인 과목 개수만큼 반복
-                    String courseName = student.getStudentCourse()[i];    //현재 출력중인 과목명
-                    int[] courseScore = student.getScore();    //검색학생 점수 불러오기
-
-                    // //해당 과목의 평가항목별 점수 출력
-                    // for (int k = 0; k < totalCourse; k++) {
-                    // if (courseDB[k].getCourseName().equals(courseName)) { //과목DB에서 출력중인 과목 데이터 찾기
-                    // String[][] items = courseDB[k].getEvaluationItem(); //출력중인 과목의 평가항목 불러오기
-
-                    // for (int j = 0; j < courseScores.length; j++) {
-                    // System.out.print(items[j][0] + " 점수 : " + courseScores[j]);
-                    // scoreSum += courseScores[j];
-                    // }
-                    // }
-                    // }
-
-                    //해당과목 총점 출력
-                    System.out.println(courseName + "점수 : " + courseScore[i]);
-                }
-            }
-        }
-
-        //학생 DB에 해당 학생 없을경우 문구 출력
-        if (!found) {
-            System.out.println("");;
-            System.out.println("해당 학번의 학생을 찾을 수 없습니다.");
-        }
-    }
-
-    // //과목의 평가항목 총점 계산 메서드
-    // public static int courseTotalScoreCalculate(Student student , String courseName){
-    // String[] courses = student.getStudentCourse() ; //총점 계산할 학생의 수강과목 불러오기
-    // int[] score = student.getScore();   //점수 불러오기
-    // //
-    // for (int i = 0; i < courses.length; i++) {
-    // if (courses[i].equals(courseName)) {    //불러온 수강과목중 해당 과목만 뽑아내기
-    // int sum = 0;
-    // for (int j = 0 ; j < score[i].length ; j++) {  //받은 평가항목 점수의 총합 구하기
-    // sum += score[i][j];
-    // }
-    // return sum;
-    // }
-    // }
-    // return -1;
-    // }
-
     //과목별 성적 계산
     /**
-     * 메소드 예제 - 사용자에 맞게 주석을 바꾸십시오.
+     * 입력받은 과목에서 수강학생의 점수를 정렬하고 점수표를 출력한 뒤, 
+     * 교수님께서 성적컷을 입력하면 선문대 학칙에 맞게 자동으로 학생들에게 성적을 부여하는 메서드
+     * 
      *
      * @param   scanner : 메인 메서드와 연동되어 입력받는 파라미터
      *          courseDB : 과목정보가 저장되어있는 데이터베이스
@@ -313,8 +153,9 @@ public class MyApp{
 
         // 해당 과목 수강 학생 찾기
         for(Student student : studentDB){
+            //DB가 앞에서부터 채워지고 수정 기능이 없으므로 처음 빈 곳을 발견하면 검색 끝내기
             if(student == null){
-                continue;
+                break;
             }
 
             String[] courses = student.getStudentCourse();  //학생의 수강과목 불러오기
@@ -373,14 +214,14 @@ public class MyApp{
         int cCut = scanner.nextInt();
 
         //선문대학교의 학사정보에 의하면 소수점처리는 올림으로 한다
-        //선문대학교 A이상 비율  
+        //선문대학교 A이상 비율 35%
         double aValue = count * 0.35;
         int aLimit = (int)aValue;
         //소수점이 있다면 올림처리
         if(aValue > aLimit){
             aLimit++;
         }
-        //선문대학교 B이상 비율
+        //선문대학교 B이상 비율 70%
         double bValue = count * 0.70;
         int bLimit = (int)bValue;
 
@@ -394,7 +235,7 @@ public class MyApp{
 
         for(int i = 0; i < count; i++){
             String grade;   //학점 저장
-            //만약 35% 이상이 A를 받게된다면 자동으로 성적순으로 끊어 35%이후 학생은 B학점 부여
+            //만약 35% 이상이 A 이상을 받게된다면 자동으로 성적순으로 끊어 35%이후 학생은 B+학점 부여
             if(i < aLimit && totals[i] >= aCut){
                 grade = "A";
             }
@@ -407,106 +248,32 @@ public class MyApp{
             else{
                 grade = "F";
             }
+
+            String[] grade = rankStudents[i].getGrades();   //받은 성적 저장
+            String[] course = rankStudents[i].getStudentCourse();   //어느 과목의 성적을 저장할지 정함
+
+            // 현재 처리중인 과목 위치 찾아서 성적배열의 같은 인덱스에 저장
+            for(int k = 0; k < courses.length; k++){
+                if(courses[k].equals(findCourse)){
+                    grades[k] = grade;
+                    break;
+                }
+            }
             System.out.println((i + 1) + "등 " + rankStudents[i].getStudentName() + " " + totals[i] + "점 " + grade);
         }
-        // // 해당 과목 수강 학생 저장
-        // for (int i = 0; i < totalStudent; i++) {
-        // Student student = studentDB[i];    //각 학생정보를 학생DB에서 참조하기
-        // int[] total = student.getScore();   //해당학생 과목별 점수 모두 불러오기
-
-        // // int total = courseTotalScoreCalculate(student, findCourse); //순위 계산을 위해 해당 학생의 총점을 따로 저장
-
-        // for (int j = 0; j < totalCourse; j++) {
-        // if (courseDB[j].equals(courseName)) {    //불러온 수강과목중 해당 과목만 뽑아내기                    
-        // if (total != -1) {
-        // rankStudents[count] = student;  //수강학생정보가 들어있는 데이터베이스(순위 계산을 위해 totlas와 같은 인덱스로 학생객체 참조)
-        // totals[count] = total;  //총점이 입력된 데이터베이스 (순위 계산을 위해 rankStudents와 같은 인덱스 사용)
-        // count++;    //수강자 구분 인덱스
-        // }
-        // }
-
-        // // 총점 기준 내림차순 정렬
-        // for (int k = 0; k < count - 1; k++) {
-        // for (int l = k + 1; l < count; l++) {
-        // if (totals[k] < totals[l]) {    //앞 사람과 뒷사람 총점 비교하며 순위 정렬 Ex)만약 이후에 입력된 사람이 더 높다면 서로 순위 바꾸기
-        // int tempScore = totals[k];  
-        // totals[k] = totals[l];
-        // totals[l] = tempScore;
-        // Student tempStudent = rankStudents[k];
-        // rankStudents[k] = rankStudents[l];
-        // rankStudents[l] = tempStudent;
-        // }
-        // }
-        // }
-        // System.out.println("");;
-
-        // //학점 나누기 전 순위표 출력
-        // System.out.println("[" + findCourse + " 순위표]");
-        // for (int k = 0; k < count; k++) {
-        // System.out.println((k + 1) + "등 " + rankStudents[k].getStudentName() + " " + rankStudents[k].getStudentNum() + " " + totals[k] + "점");
-        // }
-
-        // //등급 기준 입력
-        // System.out.print("A 등급 최소 점수 >> ");
-        // int aCut = scanner.nextInt();
-        // System.out.print("B 등급 최소 점수 >> ");
-        // int bCut = scanner.nextInt();
-        // System.out.print("C 등급 최소 점수 >> ");
-        // int cCut = scanner.nextInt();
-
-        // //선문대학교 교칙에 따라 35%만 A 또는 A+ 가능
-        // int aLimit = (int)Math.ceil(count * 0.35);
-        // //선문대학교 교칙에 따라 70%만 B 또는 B+ 가능
-        // int bLimit = (int)Math.ceil(count * 0.70);
-
-        // // 최종 순위 출력
-        // System.out.println("");;
-        // System.out.println("[" + findCourse + " 성적 순위]");
-
-        // System.out.println("");;
-        // System.out.println("[" + findCourse + " 최종 성적]");
-
-        // //학생들에게 기준에 맞추어 학점 부여
-        // for (int k = 0; k < count; k++) {
-        // String grade;
-        // if (k < aLimit && totals[k] >= aCut) {
-        // grade = "A";
-        // }
-
-        // else if (k < bLimit && totals[k] >= bCut) {
-        // grade = "B";
-        // }
-
-        // else if (totals[k] >= cCut) {
-        // grade = "C";
-        // }
-
-        // else {
-        // grade = "F";
-        // }
-
-        // System.out.println((k + 1) + "등 " + rankStudents[k].getStudentName() + " " + rankStudents[k].getStudentNum() + " " + totals[k] + "점 " + grade);
-        // }
-        // }
-        // }
     }
 
     //학생별 성적 계산
     /**
-     * 메소드 예제 - 사용자에 맞게 주석을 바꾸십시오.
+     * 학번을 입력받으면 해당 학생의 성적을 계산하여 학생 성적표를 출력하는 메서드
      *
-     * @param  y  메소드의 샘플 파라미터
-     * @return    x 와 y의 합
+     * @param   scanner : 메인 메서드와 연동되어 입력받는 파라미터
+     *          studentDB : 학생정보가 저장되어 있는 데이터베이스
+     *          courseDB : 과목정보가 저장되어있는 데이터베이스
+     *          totalStudent : 현재까지 입력받은 학생수
+     *          totalCourse : 현재까지 입력받은 과목개수
      */
     public static void studentScoreCalculate(Scanner scanner ,Student[] studentDB ,Course[] courseDB ,int totalStudent ,int totalCourse){
-        //학생별 성적 계산
-        /**
-         * 메소드 예제 - 사용자에 맞게 주석을 바꾸십시오.
-         *
-         * @param  y  메소드의 샘플 파라미터
-         * @return    x 와 y의 합
-         */
-        public static void studentScoreCalculate(Scanner scanner ,Student[] studentDB ,Course[] courseDB ,int totalStudent ,int totalCourse){
         System.out.print("성적처리할 학생의 학번을 입력하세요. >> ");
         int findStudentNum = scanner.nextInt();
         double totalScore = 0;
@@ -515,34 +282,33 @@ public class MyApp{
         boolean found = false;
 
         //학생 DB에서 학번으로 학생 조회
-        for (Student student : studentDB) {
-            if (student != null && student.getStudentNum() == findStudentNum) {
+        for (int i = 0 ; i < totalCourse ; i ++) {
+            if (student.getStudentNum() == findStudentNum) {
                 found = true;
                 System.out.println("이름: " + student.getStudentName());
                 System.out.println("학번: " + student.getStudentNum());
 
-                for (int i = 0; i < student.getStudentCourse().length; i++) {   //수강중인 과목 개수만큼 반복
-                    String courseName = student.getStudentCourse()[i];    //현재 출력중인 과목명
+                for (int j = 0; j < student.getStudentCourse().length; j++) {   //수강중인 과목 개수만큼 반복
+                    String courseName = student.getStudentCourse()[j];    //현재 출력중인 과목명
                     int[][] courseGrade = student.getScore();    //검색학생 점수 불러오기
 
                     //해당과목 등급 출력
-                    System.out.println(courseName + "성적 : " + courseScore[i][2]);
+                    System.out.println(courseName + "성적 : " + courseScore[j][2]);
 
                     //등급에 따른 평점 부여
-                    if ((char)courseScore[i][2] == 'A'){
+                    if (courseScore[j][2].equals("A")){
                         totalScore += 4.0;
                     }
-                    else if ((char)courseScore[i][2] == 'B'){
+                    else if (courseScore[j][2].equals("B")){
                         totalScore += 3.0;
                     }
-                    else if ((char)courseScore[i][2] == 'C'){
+                    else if (courseScore[j][2].equals("C")){
                         totalScore += 2.0;
                     }
                     else{
                         totalScore += 0;
                     }
                 }
-
             }
         }
 
@@ -551,12 +317,20 @@ public class MyApp{
             System.out.println("");;
             System.out.println("해당 학번의 학생을 찾을 수 없습니다.");
         }
+        System.out.println("");
+        System.out.println("이름 : " + target.getStudentName());
+        System.out.println("학번 : " + target.getStudentNum());
+
+        String[] courses = target.getStudentCourse();
+        int[] scores = target.getScore();
+        String[] grades = target.getGrades();
 
         System.out.println("신청학점 : " +  + " / 이수학점 : " + );
         System.out.println("평점합계 : " +  + "/평점평균 : " + );
         System.out.println("(백분위점수 : " +  + "/100)");
         System.out.println("석차 : " +  +"/" + )  ;
     }
+
     //메인 메서드
     public static void main(String[] args){
         //변수 선언
@@ -574,20 +348,16 @@ public class MyApp{
         int totalStudent = 0;                        //입력받은 총 학생 수
 
         //과목관련 변수
-        // int evaluationItemCount = 0;                //평가항목 개수
-        // String[] evaluationItems;                   //평가항목 배열
         int totalCourse = 0;                        //입력받은 총 과목 수
 
         while (mainMenu != 4){
             switch (mainMenu){
                     //메인화면
                 case 0:
-                    studentMenu = 0;
-                    courseMenu = 0;
                     System.out.println("");
                     System.out.println("-------------성적처리 홈화면입니다.-------------");
                     System.out.println("");
-                    System.out.print("과목메뉴: 1, 학생메뉴: 2, 성적처리: 3, 프로그램 종료: 4>> ");
+                    System.out.print("과목명 입력: 1, 학생정보 입력: 2, 성적처리: 3, 프로그램 종료: 4>> ");
 
                     //예외처리
                     try{
@@ -600,103 +370,16 @@ public class MyApp{
                     }
                     break;
 
-                    //과목메뉴
+                    //과목명 입력
                 case 1:
-                    while(courseMenu != 3){
-                        switch (courseMenu){
-                            case 0:
-                                //-------------------------------------------과목메뉴 홈 탭
-                                System.out.println("");
-                                System.out.println("-------------과목메뉴 탭입니다.-------------");
-                                System.out.println("");
-                                System.out.print("과목명 입력: 1, 과목조회: 2, 기본메뉴로 돌아가기: 3>> ");
-
-                                //정수 외 입력 예외처리
-                                try{
-                                    courseMenu = scanner.nextInt();    
-                                }
-                                catch (InputMismatchException e){
-                                    System.out.println("1,2,3 중 입력하세요.");
-                                    scanner.nextLine();
-                                    courseMenu = 0;
-                                }
-                                break;
-
-                                //--------------------------------------------과목개설 탭 
-                            case 1:
-                                System.out.println("");
-                                totalCourse = addCourse(scanner,studentDB,courseDB,totalCourse);
-                                courseMenu = 0;
-                                break;
-
-                            case 2:
-                                System.out.println("");
-                                findCourse(scanner,courseDB);
-                                courseMenu = 0;
-                                break;
-
-                            case 3:
-                                System.out.println("메인 탭으로 이동합니다");
-                                break;
-
-                                //과목 탭 정수 입력 예외처리
-                            default:
-                                System.out.println("메뉴 탭 1,2,3 중 입력하세요");
-                                scanner.nextLine();
-                                courseMenu = 0;
-                        }
-                    }
-                    courseMenu = 0;
+                    System.out.println("");
+                    totalCourse = addCourse(scanner,studentDB,courseDB,totalCourse);
                     mainMenu = 0;
                     break;
 
                     //학생 메뉴
                 case 2:
-                    while(studentMenu != 3){
-                        mainMenu = 0;
-                        switch (studentMenu){
-                            case 0:
-                                //학생메뉴 홈 탭
-                                System.out.println("");
-                                System.out.println("-------------학생메뉴 탭입니다.-------------");
-                                System.out.println("");
-                                System.out.print("학생정보 입력: 1, 학생조회: 2, 기본메뉴로 돌아가기: 3>> ");
-
-                                //정수가 아닌 데이터타입이 입력시 재입력 안내
-                                try{
-                                    studentMenu = scanner.nextInt();    
-                                }
-                                catch (InputMismatchException e){
-                                    System.out.println("1,2,3 중 입력하세요.");
-                                    scanner.nextLine();
-                                    studentMenu = 0;
-                                }
-                                break;
-
-                                //----------------------------------------학생 추가 탭
-                            case 1:
-                                totalStudent = addStudent(scanner, studentDB, courseDB, totalStudent, totalCourse);       
-                                studentMenu = 0;
-                                break;
-
-                                //--------------------------------------------학생 조회 탭
-                            case 2:
-                                findStudent(scanner, totalCourse, studentDB, courseDB);
-                                studentMenu = 0;
-                                break;
-
-                            case 3:
-                                mainMenu = 0;
-                                break;
-
-                                //학생 탭 정수 입력 예외처리
-                            default:  
-                                System.out.println("메뉴 탭 1,2,3 중 입력하세요");
-                                scanner.nextLine();
-                                studentMenu = 0;
-                        }
-                    }
-                    studentMenu = 0;
+                    totalStudent = addStudent(scanner, studentDB, courseDB, totalStudent, totalCourse);       
                     mainMenu = 0;
                     break;
 
