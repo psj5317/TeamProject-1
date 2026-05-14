@@ -499,6 +499,63 @@ public class MyApp{
      * @return    x 와 y의 합
      */
     public static void studentScoreCalculate(Scanner scanner ,Student[] studentDB ,Course[] courseDB ,int totalStudent ,int totalCourse){
+        //학생별 성적 계산
+        /**
+         * 메소드 예제 - 사용자에 맞게 주석을 바꾸십시오.
+         *
+         * @param  y  메소드의 샘플 파라미터
+         * @return    x 와 y의 합
+         */
+        public static void studentScoreCalculate(Scanner scanner ,Student[] studentDB ,Course[] courseDB ,int totalStudent ,int totalCourse){
+        System.out.print("성적처리할 학생의 학번을 입력하세요. >> ");
+        int findStudentNum = scanner.nextInt();
+        double totalScore = 0;
+
+        //학생을 찾았는가 확인
+        boolean found = false;
+
+        //학생 DB에서 학번으로 학생 조회
+        for (Student student : studentDB) {
+            if (student != null && student.getStudentNum() == findStudentNum) {
+                found = true;
+                System.out.println("이름: " + student.getStudentName());
+                System.out.println("학번: " + student.getStudentNum());
+
+                for (int i = 0; i < student.getStudentCourse().length; i++) {   //수강중인 과목 개수만큼 반복
+                    String courseName = student.getStudentCourse()[i];    //현재 출력중인 과목명
+                    int[][] courseGrade = student.getScore();    //검색학생 점수 불러오기
+
+                    //해당과목 등급 출력
+                    System.out.println(courseName + "성적 : " + courseScore[i][2]);
+
+                    //등급에 따른 평점 부여
+                    if ((char)courseScore[i][2] == 'A'){
+                        totalScore += 4.0;
+                    }
+                    else if ((char)courseScore[i][2] == 'B'){
+                        totalScore += 3.0;
+                    }
+                    else if ((char)courseScore[i][2] == 'C'){
+                        totalScore += 2.0;
+                    }
+                    else{
+                        totalScore += 0;
+                    }
+                }
+
+            }
+        }
+
+        //학생 DB에 해당 학생 없을경우 문구 출력
+        if (!found) {
+            System.out.println("");;
+            System.out.println("해당 학번의 학생을 찾을 수 없습니다.");
+        }
+
+        System.out.println("신청학점 : " +  + " / 이수학점 : " + );
+        System.out.println("평점합계 : " +  + "/평점평균 : " + );
+        System.out.println("(백분위점수 : " +  + "/100)");
+        System.out.println("석차 : " +  +"/" + )  ;
     }
     //메인 메서드
     public static void main(String[] args){
