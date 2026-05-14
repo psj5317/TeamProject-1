@@ -43,7 +43,7 @@ public class MyApp{
         //추가된 총 과목 수 메인메서드로 리턴
         return totalCourse;
     }
-
+    //
     // 학생 정보 입력
     /**
      * 학생의 이름, 학번, 수강과목 각각 점수를 입력받는 메서드
