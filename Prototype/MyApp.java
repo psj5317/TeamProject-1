@@ -5,7 +5,7 @@ import java.util.InputMismatchException;
 /**
  * MyApp 클래스의 설명을 작성하세요.
  *
- * @author (작성자 이름)
+ * @author (2023320006 정준영)
  * @version (2026.05.13)
  */
 
