@@ -118,7 +118,7 @@ public class MyApp{
             }
         }
 
-        //성적입력받기 전 이므로 빈 성적표 배열 만들어두기
+        //성적입력받기 전 이므로 빈 성적표 배열 만들기
         String[] grade = new String[courseCount];
 
         //DB에 학생 추가
