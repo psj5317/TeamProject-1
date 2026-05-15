@@ -46,7 +46,7 @@ public class MyApp{
 
         //입력 과목은 점수가 없으므로 빈 총점과 점수표 넣기
         int emptyScore = 0;
-        String emptyGrade = 0;
+        String emptyGrade = null;
 
         //과목DB에 과목 추가
         courseDB[totalCourse] = new Course(courseTitle, courseCredit,emptyScore, emptyGrade);
@@ -87,14 +87,17 @@ public class MyApp{
 
         //수강과목 수 입력받기
         int courseCount = 0;
+        //학생객체에 넣을 수강과목 객체 넣을 빈 배열 만들기
+        Course[] studentCourse = null;
+
         while (true) {
             try {
                 System.out.print("학생 수강과목 개수>> ");
                 courseCount = scanner.nextInt();
+                studentCourse = new Course[courseCount];   //수강과목 객체배열 내용 넣기
                 if (courseCount > totalCourse) {
                     System.out.println("현재까지 입력된 과목 수는 " + totalCourse + "개 입니다. 과목 정보를 먼저 입력한 뒤, 학생 정보를 입력해주세요.");
                 } else {
-                    Course[] studentCourse = new Course[courseCount];   //수강과목 배열 만들기
                     break;  // 유효한 값이면 끝내기
                 }
             }
@@ -104,13 +107,12 @@ public class MyApp{
             }
         }
 
-        int[] score = new int[courseCount];     //과목별 성적 입력받을 배열 생성
-
-        //수강과목 학생점수 입력받기
+        //수강과목 정보 입력받기
+        int score = 0;     //과목별 성적 입력받을 배열 생성
         for (int i = 0 ; i < courseCount ; i++) {
             System.out.println("");
             System.out.print("수강과목명 입력>> ");
-            String inputCourse = scanner.next();   //과목이 데이터베이스에 입력되어 있는지 확인하기 위해 입력값을 저장해둘 변수
+            String inputCourse = scanner.next();   //과목이 데이터베이스에 입력되어 있는지 확인하기 위해 입력된 과목명을 저장해둘 변수
 
             //수강과목이 현재 과목DB에 입력되어 있는지 확인하고 학생정보 입력받기
             boolean found = false;  //입력받은 과목이 현재 데이터베이스에 있는지 구분하기 위한 변수
@@ -120,7 +122,7 @@ public class MyApp{
 
                 //과목DB에서 현재 입력받은 과목명이 있는지 확인(equals()는 예제 3-6에서 나왔었음)
                 if (courseDB[j].getCourseName().equals(inputCourse)) {
-                    
+
                     //제대로 입력될 때까지 반복
                     while(true){
                         try {
@@ -134,9 +136,10 @@ public class MyApp{
                         }
                     }
 
-                    studentCourse
+                    //해당 학생의 과목정보 저장(과목명, 과목학점, 과목점수, 등급)
+                    studentCourse[i] = new Course(inputCourse,0,score,null);
 
-                        //검색한 과목 찾았으니 found를 true로 변경
+                    //검색한 과목 찾았으니 found를 true로 변경
                     found = true;
                     break;
                 }
@@ -149,14 +152,8 @@ public class MyApp{
             }
         }
 
-        //성적입력받기 전 이므로 빈 성적표 배열 만들기
-        String[] grade = new String[courseCount];
-
-        //수강과목 객체 생성
-        Course studentCourse = new Course(
-
-                //DB에 학생 추가
-                studentDB[totalStudent] = new Student(studentName, studentID, studentCourse);
+        //DB에 학생 추가
+        studentDB[totalStudent] = new Student(studentName, studentID, studentCourse);
         System.out.println(studentName + "학생 정보가 입력되었습니다.");
 
         totalStudent++; //학생이 정상적으로 추가되었으므로 데이터베이스에 저장된 학생 수 +1
@@ -192,14 +189,13 @@ public class MyApp{
                 break;
             }
 
-            String[] courses = student.getStudentCourse();  //학생의 수강과목 불러오기
-            int[] scores = student.getScore();  //학생의 점수 불러오기
+            Course[] courses = student.getStudentCourse();  //학생의 수강과목 불러오기
 
+            // 해당과목 수강자 정보
             for(int i = 0; i < courses.length; i++){
-                // 해당과목 수강하는지 수강명으로 확인
-                if(courses[i].equals(findCourse)){
+                if(courses[i].getCourseName().equals(findCourse)){
                     rankStudents[count] = student;  //점수표에 학생 넣기
-                    totals[count] = scores[i];  //점수 입력
+                    totals[count] = courses[i].getScore();  //학생 점수 넣기
                     count++;    //수강자 1명 추가
                     break;
                 }
@@ -233,56 +229,25 @@ public class MyApp{
         System.out.println("[" + findCourse + " 성적현황]");
 
         for(int i = 0; i < count; i++){
-            System.out.println(
-                (i + 1) + "등 " + rankStudents[i].getStudentName() + " " + rankStudents[i].getstudentID() + " " + totals[i] + "점");
+            System.out.println((i + 1) + "등 " + rankStudents[i].getStudentName() + " " + rankStudents[i].getStudentID() + " " + totals[i] + "점");
         }
 
-        // 등급컷 입력
-        int aCut; 
-        while(true){
-            try{
-                System.out.print("A 등급 최소 점수 >> ");
-                aCut = scanner.nextInt();
-                break;
-            }
-            catch(java.util.InputMismatchException e){
-                System.out.println("정수로 입력해주세요!");
-                scanner.nextLine();
-            }
-        }
-
-        int bCut;
-        while(true){
-            try{
-                System.out.print("B 등급 최소 점수 >> ");
-                bCut = scanner.nextInt();
-                break;
-            }
-            catch(java.util.InputMismatchException e){
-                System.out.println("정수로 입력해주세요!");
-                scanner.nextLine();
-            }
-        }
-
-        int cCut;
-        while(true){
-            try{
-                System.out.print("C 등급 최소 점수 >> ");
-                cCut = scanner.nextInt();
-                break;
-            }
-            catch(java.util.InputMismatchException e){
-                System.out.println("정수로 입력해주세요!");
-                scanner.nextLine();
-            }
-        }
+        // 등급컷
+        int aPlusCut = 95; 
+        int aCut = 90;
+        int bPlusCut = 85; 
+        int bCut = 80;
+        int cPlusCut = 75; 
+        int cCut = 70;
+        int dPlusCut = 65; 
+        int dCut = 60;
 
         //선문대학교의 학사정보에 의하면 소수점처리는 올림으로 한다
         //선문대학교 A이상 비율 35%
         double aValue = count * 0.35;
         int aLimit = (int)aValue;
         //소수점이 있다면 올림처리
-        if(aValue > aLimit){
+        if(aValue > aLimit){    //강제 형변환 했을 때 소수점이 사라진다면 기존보다 더 작아지므로 값을 1 올린다
             aLimit++;
         }
         //선문대학교 B이상 비율 70%
@@ -297,28 +262,88 @@ public class MyApp{
         System.out.println("");;
         System.out.println("[" + findCourse + " 최종 성적]");
 
-        for(int i = 0; i < count; i++){
+        for(int i = 0; i < count; i++){ //점수표 1등부터 등급을 부여해 준다
             String grade;   //학점 저장
-            //만약 35% 이상이 A 이상을 받게된다면 자동으로 성적순으로 끊어 35%이후 학생은 B+학점 부여
-            if(i < aLimit && totals[i] >= aCut){
-                grade = "A";
-            }
-            else if(i < bLimit && totals[i] >= bCut){
-                grade = "B";
-            }
-            else if(totals[i] >= cCut){
-                grade = "C";
-            }
-            else{
-                grade = "F";
+            //만약 35% 이상이 A 이상을 받게된다면 다음 if문으로 이동한다
+            if(i <= aLimit){
+                if(totals[i] >= aPlusCut){
+                    grade = "A+";
+                }
+                else if(totals[i] >= aCut){
+                    grade = "A";
+                }
+                else if(totals[i] >= bPlusCut){
+                    grade = "B+";
+                }
+                else if(totals[i] >= bCut){
+                    grade = "B";
+                }
+                else if(totals[i] >= cPlusCut){
+                    grade = "C+";
+                }
+                else if(totals[i] >= cCut){
+                    grade = "C";
+                }
+                else if(totals[i] >= dPlusCut){
+                    grade = "D+";
+                }
+                else if(totals[i] >= dCut){
+                    grade = "D";
+                }
+                else{
+                    grade = "F";
+                }
             }
 
-            //받은 성적 저장
-            String[] courses = rankStudents[i].getStudentCourse();
+            //수강학생의 70%이내는 B까지 등급을 줄 수 있으므로 상위권 학생부터 B+, B 순으로 등급을 준다.
+            else if(i <= bLimit){
+                if(totals[i] >= bPlusCut){
+                    grade = "B+";
+                }
+                else if(totals[i] >= bCut){
+                    grade = "B";
+                }
+                else if(totals[i] >= cPlusCut){
+                    grade = "C+";
+                }
+                else if(totals[i] >= cCut){
+                    grade = "C";
+                }
+                else if(totals[i] >= dPlusCut){
+                    grade = "D+";
+                }
+                else if(totals[i] >= dCut){
+                    grade = "D";
+                }
+                else{
+                    grade = "F";
+                }
+            }
+            else{   //70%이후 학생들은 C+이하의 등급을 준다
+                if(totals[i] >= cPlusCut){
+                    grade = "C+";
+                }
+                else if(totals[i] >= cCut){
+                    grade = "C";
+                }
+                else if(totals[i] >= dPlusCut){
+                    grade = "D+";
+                }
+                else if(totals[i] >= dCut){
+                    grade = "D";
+                }
+                else{
+                    grade = "F";
+                }
+            }
 
+            //등급 저장할 학생의 과목객체 불러오기
+            Course[] courses = rankStudents[i].getStudentCourse();
+            
+            //전체 수강과목중
             for(int k = 0; k < courses.length; k++){
                 //성적계산 받은 과목의 인덱스 찾기
-                if(courses[k].equals(findCourse)){
+                if(courses[k].getCourseName().equals(findCourse)){
                     rankStudents[i].setGrade(k, grade); //해당 과목과 같은 인덱스에 성적 저장하기
                     break;
                 }
@@ -359,7 +384,7 @@ public class MyApp{
 
         //학생 DB에서 학번으로 학생 조회
         for(int i = 0; i < totalStudent; i++){
-            if(studentDB[i].getstudentID() == findstudentID){
+            if(studentDB[i].getStudentID() == findstudentID){
                 target = studentDB[i];  //찾은학생정보 저장
                 found = true;
                 break;
@@ -375,9 +400,9 @@ public class MyApp{
 
         System.out.println("");
         System.out.println("이름 : " + target.getStudentName());
-        System.out.println("학번 : " + target.getstudentID());
+        System.out.println("학번 : " + target.getStudentID());
 
-        String[] course = target.getStudentCourse();    //수강과목 불러오기
+        Course[] course = target.getStudentCourse();    //수강과목 불러오기
         String[] grade = target.getGrade();    //과목별 성적 불러오기
         int applyCredit = 0;      // 신청학점
         int completeCredit = 0;   // 이수학점
@@ -389,7 +414,7 @@ public class MyApp{
             //만약 아직 성적이 계산되지 않았다면 실행
             if(grade[i] == null){
                 System.out.println("");
-                System.out.println(course[i] + " 과목의 성적처리가 아직 완료되지 않았습니다.");
+                System.out.println(course[i].getCourseName() + " 과목의 성적처리가 아직 완료되지 않았습니다.");
                 System.out.println("과목별 성적처리를 먼저 진행해주세요.");
                 return;
             }
@@ -397,7 +422,7 @@ public class MyApp{
 
         //과목별 성적표 출력
         for(int i = 0; i < course.length; i++){
-            String courseName = course[i];
+            String courseName = course[i].getCourseName();
             int credit = 0; //현재 과목학점
 
             // 과목학점 불러오기
@@ -411,16 +436,36 @@ public class MyApp{
             applyCredit += credit; //신청학점 합산
 
             //성적별 평점부여
-            if(grade[i].equals("A")){
+            if(grade[i].equals("A+")){
+                point = 4.5;
+                completeCredit += credit;
+            }
+            else if(grade[i].equals("A")){
                 point = 4.0;
+                completeCredit += credit;
+            }
+            else if(grade[i].equals("B+")){
+                point = 3.5;
                 completeCredit += credit;
             }
             else if(grade[i].equals("B")){
                 point = 3.0;
                 completeCredit += credit;
             }
+            else if(grade[i].equals("C+")){
+                point = 2.5;
+                completeCredit += credit;
+            }
             else if(grade[i].equals("C")){
                 point = 2.0;
+                completeCredit += credit;
+            }
+            else if(grade[i].equals("D+")){
+                point = 1.5;
+                completeCredit += credit;
+            }
+            else if(grade[i].equals("D")){
+                point = 1.0;
                 completeCredit += credit;
             }
             else{
@@ -433,6 +478,12 @@ public class MyApp{
 
         // 평점평균 계산 (평점평균 = 평점합계 / 이수학점)
         double avg = 0;
+
+        //반올림을 위해 나눗셈 중 0을 나눌수 없음
+        if(completeCredit == 0){
+            System.out.println("이수학점이 없어 평점을 계산할 수 없습니다.");
+            return;
+        }
         avg = totalPoint / completeCredit;
         avg = ((int)(avg * 100 + 0.5)) / 100.0; //평점평균 산출은 다음과 같이 하며 소수점 셋째자리에서 반올림하여 둘째자리까지 표기한다.#선문대학교 학칙 (6-1)교무규정 36조
 
@@ -453,8 +504,13 @@ public class MyApp{
         for(int i = 0; i < totalStudent; i++){
             Student other = studentDB[i];   //조회학생 외 학생정보 불러오기
 
+            //본인을 비교하는 경우 검색하는경우 건너뛰기
+            if(other.getStudentID() == target.getStudentID()){
+                continue;
+            }
+
             String[] otherGrade = other.getGrade();     //나머지 학생 성적 불러오기
-            String[] otherCourse = other.getStudentCourse();    //나머지 학생 수강과목 불러오기
+            Course[] otherCourse = other.getStudentCourse();   //나머지 학생 수강과목 불러오기
 
             int otherComplete = 0;  //나머지 학생의 이수학점 
             double otherTotal = 0;  //나머지 학생의 평점합계
@@ -462,51 +518,78 @@ public class MyApp{
             // 나머지 학생들 이수과목 성적처리 완료 여부 확인
             for(int l = 0; l < otherGrade.length; l++){
                 //만약 아직 성적이 계산되지 않았다면 실행
-                if(otherGrade[i] == null){
+                if(otherGrade[l] == null){
                     System.out.println("");
-                    System.out.println(course[l] + " 과목의 성적처리가 아직 완료되지 않았습니다.");
+                    System.out.println(otherCourse[l].getCourseName() + " 과목의 성적처리가 아직 완료되지 않았습니다.");
                     System.out.println("과목별 성적처리를 먼저 진행해주세요.");
                     return;
                 }
             }
 
             for(int j = 0; j < otherCourse.length; j++){
-                int credit = 0;     //과목학점 저장
+                int credit = 0;
 
                 for(int k = 0; k < totalCourse; k++){
-                    if(courseDB[k].getCourseName().equals(otherCourse[j])){
+                    if(courseDB[k].getCourseName().equals(otherCourse[j].getCourseName())){
                         credit = courseDB[k].getCourseCredit();
                         break;
                     }
                 }
 
-                double otherPoint = 0;  //나머지 학생의 과목평점
+                double otherPoint = 0;
 
-                if(otherGrade[j].equals("A")){
+                if(otherGrade[j].equals("A+")){
+                    otherPoint = 4.5;
+                    otherComplete += credit;
+                }
+                else if(otherGrade[j].equals("A")){
                     otherPoint = 4.0;
+                    otherComplete += credit;
+                }
+                else if(otherGrade[j].equals("B+")){
+                    otherPoint = 3.5;
                     otherComplete += credit;
                 }
                 else if(otherGrade[j].equals("B")){
                     otherPoint = 3.0;
                     otherComplete += credit;
                 }
+                else if(otherGrade[j].equals("C+")){
+                    otherPoint = 2.5;
+                    otherComplete += credit;
+                }
                 else if(otherGrade[j].equals("C")){
                     otherPoint = 2.0;
                     otherComplete += credit;
+                }
+                else if(otherGrade[j].equals("D+")){
+                    otherPoint = 1.5;
+                    otherComplete += credit;
+                }
+                else if(otherGrade[j].equals("D")){
+                    otherPoint = 1.0;
+                    otherComplete += credit;
+                }
+                else{
+                    otherPoint = 0.0;
                 }
 
                 otherTotal += otherPoint * credit;
             }
 
-            double otherAvg = 0;    //나머지 학생의 백분위
+            // 여기부터는 j 반복문 밖
+            double otherAvg = 0;
+
+            if(otherComplete == 0){
+                continue;
+            }
+
             otherAvg = otherTotal / otherComplete;
             otherAvg = ((int)(otherAvg * 100 + 0.5)) / 100.0;
 
-            //백분위 점수 기준으로 석차 계산
             if(otherAvg > avg){
                 rank++;
             }
-
         }
         System.out.println("");
         System.out.println("신청학점 : " + applyCredit);
@@ -563,7 +646,7 @@ public class MyApp{
                     //과목명 입력
                 case 1:
                     System.out.println("");
-                    totalCourse = addCourse(scanner,studentDB,courseDB,totalCourse);
+                    totalCourse = addCourse(scanner, courseDB, totalCourse);
                     mainMenu = 0;
                     break;
 

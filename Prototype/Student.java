@@ -33,4 +33,18 @@ public class Student
     public Course[] getStudentCourse() {
         return studentCourse;
     }
+
+    // getGrade : 학생의 전체 성적 반환
+    public String[] getGrade(){
+        String[] grades = new String[studentCourse.length];
+        for(int i = 0; i < studentCourse.length; i++){
+            grades[i] = studentCourse[i].getGrade();
+        }
+        return grades;
+    }
+
+    // setGrade : 특정 과목 성적 수정
+    public void setGrade(int index, String grade){
+        studentCourse[index].setGrade(grade);
+    }
 }
