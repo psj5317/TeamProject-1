@@ -137,7 +137,7 @@ public class MyApp{
                     }
 
                     //해당 학생의 과목정보 저장(과목명, 과목학점, 과목점수, 등급)
-                    studentCourse[i] = new Course(inputCourse,0,score,null);
+                    studentCourse[i] = new Course(inputCourse,score,null);
 
                     //검색한 과목 찾았으니 found를 true로 변경
                     found = true;
@@ -500,31 +500,41 @@ public class MyApp{
 
         // 석차 계산
         int rank = 1;
+        int rankTotal = 0; // 실제 석차 대상 학생 수
 
         for(int i = 0; i < totalStudent; i++){
-            Student other = studentDB[i];   //조회학생 외 학생정보 불러오기
+            Student other = studentDB[i];
 
-            //본인을 비교하는 경우 검색하는경우 건너뛰기
+            if(other == null){
+                continue;
+            }
+
+            String[] otherGrade = other.getGrade();
+            Course[] otherCourse = other.getStudentCourse();
+
+            boolean complete = true;
+
+            // 성적처리 안된 학생 제외
+            for(int j = 0; j < otherGrade.length; j++){
+                if(otherGrade[j] == null){
+                    complete = false;
+                    break;
+                }
+            }
+
+            if(!complete){
+                continue;
+            }
+
+            rankTotal++;
+
+            // 본인은 비교 제외
             if(other.getStudentID() == target.getStudentID()){
                 continue;
             }
 
-            String[] otherGrade = other.getGrade();     //나머지 학생 성적 불러오기
-            Course[] otherCourse = other.getStudentCourse();   //나머지 학생 수강과목 불러오기
-
-            int otherComplete = 0;  //나머지 학생의 이수학점 
-            double otherTotal = 0;  //나머지 학생의 평점합계
-
-            // 나머지 학생들 이수과목 성적처리 완료 여부 확인
-            for(int l = 0; l < otherGrade.length; l++){
-                //만약 아직 성적이 계산되지 않았다면 실행
-                if(otherGrade[l] == null){
-                    System.out.println("");
-                    System.out.println(otherCourse[l].getCourseName() + " 과목의 성적처리가 아직 완료되지 않았습니다.");
-                    System.out.println("과목별 성적처리를 먼저 진행해주세요.");
-                    return;
-                }
-            }
+            int otherApply = 0;
+            double otherTotal = 0;
 
             for(int j = 0; j < otherCourse.length; j++){
                 int credit = 0;
@@ -540,64 +550,66 @@ public class MyApp{
 
                 if(otherGrade[j].equals("A+")){
                     otherPoint = 4.5;
-                    otherComplete += credit;
                 }
                 else if(otherGrade[j].equals("A")){
                     otherPoint = 4.0;
-                    otherComplete += credit;
                 }
                 else if(otherGrade[j].equals("B+")){
                     otherPoint = 3.5;
-                    otherComplete += credit;
                 }
                 else if(otherGrade[j].equals("B")){
                     otherPoint = 3.0;
-                    otherComplete += credit;
                 }
                 else if(otherGrade[j].equals("C+")){
                     otherPoint = 2.5;
-                    otherComplete += credit;
                 }
                 else if(otherGrade[j].equals("C")){
                     otherPoint = 2.0;
-                    otherComplete += credit;
                 }
                 else if(otherGrade[j].equals("D+")){
                     otherPoint = 1.5;
-                    otherComplete += credit;
                 }
                 else if(otherGrade[j].equals("D")){
                     otherPoint = 1.0;
-                    otherComplete += credit;
                 }
                 else{
                     otherPoint = 0.0;
                 }
 
+                otherApply += credit;
                 otherTotal += otherPoint * credit;
             }
 
-            // 여기부터는 j 반복문 밖
             double otherAvg = 0;
 
-            if(otherComplete == 0){
-                continue;
+            // 신청학점 기준으로 계산
+            if(otherApply > 0){
+                otherAvg = otherTotal / otherApply;
             }
 
-            otherAvg = otherTotal / otherComplete;
             otherAvg = ((int)(otherAvg * 100 + 0.5)) / 100.0;
 
-            if(otherAvg > avg){
+            //나머지 학생 백분위 계산
+            double otherPercent;
+            if(otherAvg >= 4.4){
+                otherPercent = (otherAvg * 20) + 10;
+            }
+            else{
+                otherPercent = (otherAvg * 10) + 54;
+            }
+            //백분위 낮은 학생 등수 하나 내리기
+            if(otherPercent > percent){
                 rank++;
             }
         }
+        System.out.println("석차 : " + rank + "/" + rankTotal);
         System.out.println("");
         System.out.println("신청학점 : " + applyCredit);
         System.out.println("이수학점 : " + completeCredit);
         System.out.println("평점합계 : " + totalPoint);
         System.out.println("평점평균 : " + avg);
         System.out.println("백분위점수 : " + percent);
-        System.out.println("석차 : " + rank + "/" + totalStudent);
+        System.out.println("석차 : " + rank + "/" + rankTotal);
     }
 
     //메인 메서드
@@ -609,6 +621,7 @@ public class MyApp{
 
         //메인화면 변수
         int mainMenu = 0;                           //기본화면
+        boolean running = true;
 
         //학생관련 변수
         int totalStudent = 0;                        //입력받은 총 학생 수
@@ -623,7 +636,7 @@ public class MyApp{
         System.out.println("2. 성적처리 도중, 학생 또는 과목이 추가될 경우 해당 정보를 입력한 뒤 3번 항목(과목별 성적계산)부터 다시 실행해주세요.");
         System.out.println("3. 숫자 5를 입력하면 프로그램이 종료됩니다.");
         System.out.println("4. 이 프로그램은 선문대학교 학칙, 학사팀 문의내용을 기준으로 만들어졌습니다.");
-        while (mainMenu != 5){
+        while (running){
             switch (mainMenu){
                     //메인화면
                 case 0:
@@ -662,6 +675,7 @@ public class MyApp{
                     mainMenu = 0;
                     break;
 
+                    //학생별 성적계산
                 case 4:
                     studentScoreCalculate(scanner , studentDB , courseDB , totalStudent , totalCourse);
                     mainMenu = 0;
@@ -669,24 +683,33 @@ public class MyApp{
 
                     //프로그램 종료
                 case 5:
-                    System.out.print("프로그램을 종료하려면 0을 입력해주세요. >> ");
                     int systemOut;
-                    while(true){
+                    do {
                         try {
+                            System.out.print("프로그램을 종료하려면 0을 입력해주세요. (종료를 취소하려면 아무 숫자나 입력해주세요.)>> ");
                             systemOut = scanner.nextInt();
-                            if (systemOut == 0){
-                                break;
+
+                            if (systemOut == 0) {
+                                running = false;
                             }
-                            else{
+                            else {
+                                System.out.println("");
                                 System.out.println("홈 화면으로 돌아갑니다.");
                                 System.out.println("");
                                 mainMenu = 0;
                             }
+
+                            break;
                         }
-                        catch(java.util.InputMismatchException e){
+                        catch (java.util.InputMismatchException e) {
+                            System.out.println("");
                             System.out.println("잘못된 입력입니다.");
+                            System.out.println("");
+                            scanner.nextLine();
                         }
-                    }
+
+                    } while (true);
+                    break;
 
                     //메인메뉴 정수 예외처리
                 default:

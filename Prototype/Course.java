@@ -19,6 +19,12 @@ public class Course {
         this.score = score;
         this.grade = grade;
     }
+    
+    public Course(String courseTitle, int score, String grade){
+        this.courseTitle = courseTitle;
+        this.score = score;
+        this.grade = grade;        
+    }
 
     public String getCourseName() {
         return courseTitle;
