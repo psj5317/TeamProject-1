@@ -4,7 +4,7 @@ import java.util.Scanner;
 /**
  * Course 과목 객체를 만드는 클래스
  *
- * @author (작성자 이름)
+ * @author (2023320010 박성준, 2023320012 강성하, 2023320006 정준영, 2023320029 정지후)
  * @version 2026-05-08
  */
 public class Course {
