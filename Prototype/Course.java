@@ -5,7 +5,7 @@ import java.util.Scanner;
  * Course 과목 객체를 만들고 과목명, 학점, 학생의 총점, 등급을 저장하는 클래스
  *
  * @author (2023320010 박성준, 2023320012 강성하, 2023320006 정준영, 2023320029 정지후)
- * @version 2026-05-08
+ * @version 2026-05-15
  */
 public class Course {
     private String courseTitle;     //과목명
