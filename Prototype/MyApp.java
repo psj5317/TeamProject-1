@@ -348,7 +348,7 @@ public class MyApp{
         }
 
         //검색할 학생정보 저장
-        Student targit = null;
+        Student target = null;
 
         //학생을 찾았는가 확인
         boolean found = false;
@@ -356,7 +356,7 @@ public class MyApp{
         //학생 DB에서 학번으로 학생 조회
         for(int i = 0; i < totalStudent; i++){
             if(studentDB[i].getStudentNum() == findStudentNum){
-                targit = studentDB[i];  //찾은학생정보 저장
+                target = studentDB[i];  //찾은학생정보 저장
                 found = true;
                 break;
             }
@@ -370,11 +370,11 @@ public class MyApp{
         }
 
         System.out.println("");
-        System.out.println("이름 : " + targit.getStudentName());
-        System.out.println("학번 : " + targit.getStudentNum());
+        System.out.println("이름 : " + target.getStudentName());
+        System.out.println("학번 : " + target.getStudentNum());
 
-        String[] course = targit.getStudentCourse();    //수강과목 불러오기
-        String[] grade = targit.getGrade();    //과목별 성적 불러오기
+        String[] course = target.getStudentCourse();    //수강과목 불러오기
+        String[] grade = target.getGrade();    //과목별 성적 불러오기
         int applyCredit = 0;      // 신청학점
         int completeCredit = 0;   // 이수학점
         double totalPoint = 0;    // 평점합계
@@ -407,7 +407,6 @@ public class MyApp{
             applyCredit += credit; //신청학점 합산
 
             //성적별 평점부여
-            //만약 성적처리가 안 된 과목이 있다면 
             if(grade[i].equals("A")){
                 point = 4.0;
                 completeCredit += credit;
@@ -460,7 +459,7 @@ public class MyApp{
             int otherComplete = 0;  //나머지 학생의 이수학점 
             double otherTotal = 0;  //나머지 학생의 평점합계
 
-            // 이수과목 성적처리 완료 여부 확인
+            // 나머지 학생들 이수과목 성적처리 완료 여부 확인
             for(int l = 0; l < otherGrade.length; l++){
                 //만약 아직 성적이 계산되지 않았다면 실행
                 if(otherGrade[i] == null){
@@ -472,7 +471,7 @@ public class MyApp{
             }
 
             for(int j = 0; j < otherCourse.length; j++){
-                int credit = 0;     //
+                int credit = 0;     //과목학점 저장
 
                 for(int k = 0; k < totalCourse; k++){
                     if(courseDB[k].getCourseName().equals(otherCourse[j])){
