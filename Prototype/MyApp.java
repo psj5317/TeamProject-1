@@ -26,10 +26,10 @@ public class MyApp{
         System.out.print("과목명>> ");
         String courseTitle = scanner.next();
 
-        System.out.print("과목학점>> ");
         int courseCredit;    
         while(true){
             try{
+                System.out.print("과목학점>> ");
                 courseCredit = scanner.nextInt();
                 break;
             }
@@ -69,15 +69,15 @@ public class MyApp{
     public static int addStudent(Scanner scanner,Student[] studentDB, Course[] courseDB, int totalStudent, int totalCourse) {      
         System.out.print("학생 이름>> ");
         String studentName = scanner.next();
-        System.out.print("학생 학번>> ");
         int studentNum;
         while(true){
             try{
+                System.out.print("학생 학번>> ");
                 studentNum= scanner.nextInt();
                 break;
             }
             catch(java.util.InputMismatchException e){
-                System.out.println("학번은 정수로 입력해주세요!");
+                System.out.println("학번을 다시 입력해주세요!");
                 scanner.nextLine();
             }
         }
@@ -122,11 +122,11 @@ public class MyApp{
 
                     //수강과목 배열과 점수배열을 같은 인덱스로 위치시켜서 연동
                     studentCourse[i] = inputCourse;
-                    System.out.print(inputCourse + "의 총점을 입력해주세요. >> ");
 
                     //제대로 입력될 때까지 반복
                     while(true){
                         try {
+                            System.out.print(inputCourse + "의 총점을 입력해주세요. >> ");
                             score[i] = scanner.nextInt();
                             break;
                         }
@@ -234,10 +234,10 @@ public class MyApp{
         }
 
         // 등급컷 입력
-        System.out.print("A 등급 최소 점수 >> ");
         int aCut; 
         while(true){
             try{
+                System.out.print("A 등급 최소 점수 >> ");
                 aCut = scanner.nextInt();
                 break;
             }
@@ -247,10 +247,10 @@ public class MyApp{
             }
         }
 
-        System.out.print("B 등급 최소 점수 >> ");
         int bCut;
         while(true){
             try{
+                System.out.print("B 등급 최소 점수 >> ");
                 bCut = scanner.nextInt();
                 break;
             }
@@ -260,10 +260,10 @@ public class MyApp{
             }
         }
 
-        System.out.print("C 등급 최소 점수 >> ");
         int cCut;
         while(true){
             try{
+                System.out.print("C 등급 최소 점수 >> ");
                 cCut = scanner.nextInt();
                 break;
             }
@@ -334,10 +334,10 @@ public class MyApp{
      *          totalCourse : 현재까지 입력받은 과목개수
      */
     public static void studentScoreCalculate(Scanner scanner ,Student[] studentDB ,Course[] courseDB ,int totalStudent ,int totalCourse){
-        System.out.print("성적처리할 학생의 학번을 입력하세요. >> ");
         int findStudentNum;  //조회학생 학번
         while(true){
             try{
+                System.out.print("성적처리할 학생의 학번을 입력하세요. >> ");
                 findStudentNum = scanner.nextInt();
                 break;
             }
@@ -408,15 +408,15 @@ public class MyApp{
 
             //성적별 평점부여
             //만약 성적처리가 안 된 과목이 있다면 
-            if(grade[i] != null && grade[i].equals("A")){
+            if(grade[i].equals("A")){
                 point = 4.0;
                 completeCredit += credit;
             }
-            else if(grade[i] != null && grade[i].equals("B")){
+            else if(grade[i].equals("B")){
                 point = 3.0;
                 completeCredit += credit;
             }
-            else if(grade[i] != null && grade[i].equals("C")){
+            else if(grade[i].equals("C")){
                 point = 2.0;
                 completeCredit += credit;
             }
@@ -460,6 +460,17 @@ public class MyApp{
             int otherComplete = 0;  //나머지 학생의 이수학점 
             double otherTotal = 0;  //나머지 학생의 평점합계
 
+            // 이수과목 성적처리 완료 여부 확인
+            for(int l = 0; l < otherGrade.length; l++){
+                //만약 아직 성적이 계산되지 않았다면 실행
+                if(otherGrade[i] == null){
+                    System.out.println("");
+                    System.out.println(course[l] + " 과목의 성적처리가 아직 완료되지 않았습니다.");
+                    System.out.println("과목별 성적처리를 먼저 진행해주세요.");
+                    return;
+                }
+            }
+
             for(int j = 0; j < otherCourse.length; j++){
                 int credit = 0;     //
 
@@ -472,20 +483,20 @@ public class MyApp{
 
                 double otherPoint = 0;  //나머지 학생의 과목평점
 
-                if(grade[i] != null && grade[i].equals("A")){
+                if(otherGrade[j].equals("A")){
                     otherPoint = 4.0;
                     otherComplete += credit;
                 }
-                else if(grade[i] != null && grade[i].equals("B")){
+                else if(otherGrade[j].equals("B")){
                     otherPoint = 3.0;
                     otherComplete += credit;
                 }
-                else if(grade[i] != null && grade[i].equals("C")){
+                else if(otherGrade[j].equals("C")){
                     otherPoint = 2.0;
                     otherComplete += credit;
                 }
 
-                otherTotal += point * credit;
+                otherTotal += otherPoint * credit;
             }
 
             double otherAvg = 0;    //나머지 학생의 백분위
@@ -527,10 +538,10 @@ public class MyApp{
         System.out.println("성적처리 프로그램을 실행합니다.");
         System.out.println("사용법은 아래와 같습니다.");
         System.out.println("1. 원하는 항목의 숫자를 키보드로 입력후 엔터를 눌러주세요. ");
-        System.out.println("2. 성적처리 도중, 학생 또는 과목이 추가될 경우 해당 정보를 입력한 뒤 3번 항목(과별 성적계산)부터 다시 실행해주세요.");
+        System.out.println("2. 성적처리 도중, 학생 또는 과목이 추가될 경우 해당 정보를 입력한 뒤 3번 항목(과목별 성적계산)부터 다시 실행해주세요.");
         System.out.println("3. 숫자 5를 입력하면 프로그램이 종료됩니다.");
         System.out.println("4. 이 프로그램은 선문대학교 학칙, 학사팀 문의내용을 기준으로 만들어졌습니다.");
-        while (mainMenu != 4){
+        while (mainMenu != 5){
             switch (mainMenu){
                     //메인화면
                 case 0:
@@ -541,9 +552,9 @@ public class MyApp{
 
                     //예외처리
                     try{
-                        mainMenu = scanner.nextInt();    
+                        mainMenu = scanner.nextInt();
                     }
-                    catch (InputMismatchException e){
+                    catch (java.util.InputMismatchException e){
                         System.out.println("1,2,3,4,5 중 입력하세요.");
                         scanner.nextLine();
                         mainMenu = 0;
