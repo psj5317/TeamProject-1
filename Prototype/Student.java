@@ -10,17 +10,13 @@ package Prototype;
 public class Student
 {
     private String studentName;     //학생명
-    private int studentNum;         //학번
-    private String[] studentCourse; //수강과목
-    private int score[];            //수강과목 총점 (과제, 출석, 시험점수 등을 합한 점수)
-    private String grade[];         //수강과목 성적표 (Ex : A,B,F)
+    private int studentID;         //학번
+    private Course[] studentCourse; //수강과목
 
-    public Student(String studentName, int studentNum, String[] studentCourse, int[] score, String[] grade) {
+    public Student(String studentName, int studentID, Course[] studentCourse) {
         this.studentName = studentName;
-        this.studentNum = studentNum;
+        this.studentID = studentID;
         this.studentCourse = studentCourse;
-        this.score = score;
-        this.grade = grade;
     }
 
     //getStudentName : 이름 출력
@@ -29,27 +25,12 @@ public class Student
     }
 
     //getStudentNum : 학번 출력
-    public int getStudentNum() {
-        return studentNum;
+    public int getStudentID() {
+        return studentID;
     }
 
     //getStudentCourse : 수강중인 과목 출력
-    public String[] getStudentCourse() {
+    public Course[] getStudentCourse() {
         return studentCourse;
-    }
-
-    //getScore : 수강과목별 총점 출력
-    public int[] getScore() {
-        return score;
-    }
-    
-    //getGrade : 수강과목별 성적 출력
-    public String[] getGrade() {
-        return grade;
-    }
-    
-    //setGrade : 과목의 성적처리 완료시 성적표 변경
-    public void setGrade(int index, String grade){
-        this.grade[index] = grade;
     }
 }

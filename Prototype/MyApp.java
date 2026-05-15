@@ -15,13 +15,12 @@ public class MyApp{
      * 성적처리 할 과목의 정보를 입력받는 메서드
      *
      * @param   scanner : 메인 메서드와 연동되어 입력받는 파라미터
-     *          studentDB : 학생정보가 저장되어 있는 데이터베이스
      *          courseDB : 과목정보가 저장되어있는 데이터베이스
      *          totalCourse : 현재까지 입력받은 과목개수
      *          
      * @return  totalCourse : 과목정보가 입력되어 수정된 총 과목개수 값 반환
      */
-    public static int addCourse(Scanner scanner,Student[] studentDB, Course[] courseDB, int totalCourse) {
+    public static int addCourse(Scanner scanner, Course[] courseDB, int totalCourse) {
         //과목 정보 입력
         System.out.print("과목명>> ");
         String courseTitle = scanner.next();
@@ -39,14 +38,18 @@ public class MyApp{
             }
         }
 
-        //개설강좌 확인
+        //입력과목 확인
         System.out.println("");
         System.out.println("----------입력된 과목----------");
         System.out.println("과목명: " + courseTitle);
         System.out.println("학점: " + courseCredit);
 
+        //입력 과목은 점수가 없으므로 빈 총점과 점수표 넣기
+        int emptyScore = 0;
+        String emptyGrade = 0;
+
         //과목DB에 과목 추가
-        courseDB[totalCourse] = new Course(courseTitle, courseCredit);
+        courseDB[totalCourse] = new Course(courseTitle, courseCredit,emptyScore, emptyGrade);
 
         totalCourse++; //과목이 정상적으로 추가되었으므로 데이터베이스에 저장된 학생 수 +1        
 
@@ -69,11 +72,11 @@ public class MyApp{
     public static int addStudent(Scanner scanner,Student[] studentDB, Course[] courseDB, int totalStudent, int totalCourse) {      
         System.out.print("학생 이름>> ");
         String studentName = scanner.next();
-        int studentNum;
+        int studentID;
         while(true){
             try{
                 System.out.print("학생 학번>> ");
-                studentNum= scanner.nextInt();
+                studentID= scanner.nextInt();
                 break;
             }
             catch(java.util.InputMismatchException e){
@@ -81,33 +84,31 @@ public class MyApp{
                 scanner.nextLine();
             }
         }
-        System.out.print("학생 수강과목 개수>> ");
-        int courseCount = 0;
 
         //수강과목 수 입력받기
+        int courseCount = 0;
         while (true) {
             try {
+                System.out.print("학생 수강과목 개수>> ");
                 courseCount = scanner.nextInt();
                 if (courseCount > totalCourse) {
                     System.out.println("현재까지 입력된 과목 수는 " + totalCourse + "개 입니다. 과목 정보를 먼저 입력한 뒤, 학생 정보를 입력해주세요.");
-                    System.out.print("학생 수강과목 개수>> ");
                 } else {
+                    Course[] studentCourse = new Course[courseCount];   //수강과목 배열 만들기
                     break;  // 유효한 값이면 끝내기
                 }
-
-            } 
+            }
             catch (java.util.InputMismatchException e) {
                 System.out.println("수강과목 개수는 정수로 입력해주세요!");
                 scanner.nextLine();
             }
         }
 
-        String[] studentCourse = new String[courseCount];      //입력받은 과목들을 저장할 배열 생성
-        int[] score = new int[courseCount];                    //과목별 성적 입력받을 배열 생성
+        int[] score = new int[courseCount];     //과목별 성적 입력받을 배열 생성
 
         //수강과목 학생점수 입력받기
         for (int i = 0 ; i < courseCount ; i++) {
-            System.out.println("");;
+            System.out.println("");
             System.out.print("수강과목명 입력>> ");
             String inputCourse = scanner.next();   //과목이 데이터베이스에 입력되어 있는지 확인하기 위해 입력값을 저장해둘 변수
 
@@ -119,15 +120,12 @@ public class MyApp{
 
                 //과목DB에서 현재 입력받은 과목명이 있는지 확인(equals()는 예제 3-6에서 나왔었음)
                 if (courseDB[j].getCourseName().equals(inputCourse)) {
-
-                    //수강과목 배열과 점수배열을 같은 인덱스로 위치시켜서 연동
-                    studentCourse[i] = inputCourse;
-
+                    
                     //제대로 입력될 때까지 반복
                     while(true){
                         try {
                             System.out.print(inputCourse + "의 총점을 입력해주세요. >> ");
-                            score[i] = scanner.nextInt();
+                            score = scanner.nextInt();
                             break;
                         }
                         catch (java.util.InputMismatchException e) {
@@ -135,7 +133,10 @@ public class MyApp{
                             scanner.nextLine();
                         }
                     }
-                    //검색한 과목 찾았으니 found를 true로 변경
+
+                    studentCourse
+
+                        //검색한 과목 찾았으니 found를 true로 변경
                     found = true;
                     break;
                 }
@@ -151,8 +152,11 @@ public class MyApp{
         //성적입력받기 전 이므로 빈 성적표 배열 만들기
         String[] grade = new String[courseCount];
 
-        //DB에 학생 추가
-        studentDB[totalStudent] = new Student(studentName, studentNum, studentCourse, score, grade);
+        //수강과목 객체 생성
+        Course studentCourse = new Course(
+
+                //DB에 학생 추가
+                studentDB[totalStudent] = new Student(studentName, studentID, studentCourse);
         System.out.println(studentName + "학생 정보가 입력되었습니다.");
 
         totalStudent++; //학생이 정상적으로 추가되었으므로 데이터베이스에 저장된 학생 수 +1
@@ -230,7 +234,7 @@ public class MyApp{
 
         for(int i = 0; i < count; i++){
             System.out.println(
-                (i + 1) + "등 " + rankStudents[i].getStudentName() + " " + rankStudents[i].getStudentNum() + " " + totals[i] + "점");
+                (i + 1) + "등 " + rankStudents[i].getStudentName() + " " + rankStudents[i].getstudentID() + " " + totals[i] + "점");
         }
 
         // 등급컷 입력
@@ -334,11 +338,11 @@ public class MyApp{
      *          totalCourse : 현재까지 입력받은 과목개수
      */
     public static void studentScoreCalculate(Scanner scanner ,Student[] studentDB ,Course[] courseDB ,int totalStudent ,int totalCourse){
-        int findStudentNum;  //조회학생 학번
+        int findstudentID;  //조회학생 학번
         while(true){
             try{
                 System.out.print("성적처리할 학생의 학번을 입력하세요. >> ");
-                findStudentNum = scanner.nextInt();
+                findstudentID = scanner.nextInt();
                 break;
             }
             catch(java.util.InputMismatchException e){
@@ -355,7 +359,7 @@ public class MyApp{
 
         //학생 DB에서 학번으로 학생 조회
         for(int i = 0; i < totalStudent; i++){
-            if(studentDB[i].getStudentNum() == findStudentNum){
+            if(studentDB[i].getstudentID() == findstudentID){
                 target = studentDB[i];  //찾은학생정보 저장
                 found = true;
                 break;
@@ -371,7 +375,7 @@ public class MyApp{
 
         System.out.println("");
         System.out.println("이름 : " + target.getStudentName());
-        System.out.println("학번 : " + target.getStudentNum());
+        System.out.println("학번 : " + target.getstudentID());
 
         String[] course = target.getStudentCourse();    //수강과목 불러오기
         String[] grade = target.getGrade();    //과목별 성적 불러오기
@@ -448,10 +452,6 @@ public class MyApp{
 
         for(int i = 0; i < totalStudent; i++){
             Student other = studentDB[i];   //조회학생 외 학생정보 불러오기
-
-            if(other == null){  //DB에서 처음으로 빈 곳 발견하면 그 뒤로도 입력된 학생이 없으므로 불러오기 종료
-                break;
-            }
 
             String[] otherGrade = other.getGrade();     //나머지 학생 성적 불러오기
             String[] otherCourse = other.getStudentCourse();    //나머지 학생 수강과목 불러오기
