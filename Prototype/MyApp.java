@@ -126,7 +126,7 @@ public class MyApp{
                     //제대로 입력될 때까지 반복
                     while(true){
                         try {
-                            System.out.print(inputCourse + "의 총점을 입력해주세요. >> ");
+                            System.out.print(inputCourse + "에서 학생이 받은 총점을 입력해주세요. >> ");
                             score = scanner.nextInt();
                             break;
                         }
@@ -229,7 +229,7 @@ public class MyApp{
         System.out.println("[" + findCourse + " 성적현황]");
 
         for(int i = 0; i < count; i++){
-            System.out.println((i + 1) + "등 " + rankStudents[i].getStudentName() + " " + rankStudents[i].getStudentID() + " " + totals[i] + "점");
+            System.out.println((i + 1) + "번 " + rankStudents[i].getStudentName() + " " + rankStudents[i].getStudentID() + " " + totals[i] + "점");
         }
 
         // 등급컷
@@ -339,7 +339,7 @@ public class MyApp{
 
             //등급 저장할 학생의 과목객체 불러오기
             Course[] courses = rankStudents[i].getStudentCourse();
-            
+
             //전체 수강과목중
             for(int k = 0; k < courses.length; k++){
                 //성적계산 받은 과목의 인덱스 찾기
@@ -348,7 +348,7 @@ public class MyApp{
                     break;
                 }
             }
-            System.out.println((i + 1) + "등 " + rankStudents[i].getStudentName() + " " + totals[i] + "점 / 성적 : " + grade);
+            System.out.println((i + 1) + "번 " + rankStudents[i].getStudentName() + " " + totals[i] + "점 / 성적 : " + grade);
         }
     }
 
@@ -669,7 +669,24 @@ public class MyApp{
 
                     //프로그램 종료
                 case 5:
-                    break;
+                    System.out.print("프로그램을 종료하려면 0을 입력해주세요. >> ");
+                    int systemOut;
+                    while(true){
+                        try {
+                            systemOut = scanner.nextInt();
+                            if (systemOut == 0){
+                                break;
+                            }
+                            else{
+                                System.out.println("홈 화면으로 돌아갑니다.");
+                                System.out.println("");
+                                mainMenu = 0;
+                            }
+                        }
+                        catch(java.util.InputMismatchException e){
+                            System.out.println("잘못된 입력입니다.");
+                        }
+                    }
 
                     //메인메뉴 정수 예외처리
                 default:
