@@ -614,7 +614,7 @@ public class MyApp{
         int totalStudent = 0;                        //입력받은 총 학생 수
 
         //과목관련 변수
-        int totalCourse = 0;                        //입력받은 총 과목 수
+        int totalCourse = 0;                        //입력받은 총 과목 수.
 
         //사용법 출력
         System.out.println("성적처리 프로그램을 실행합니다.");
